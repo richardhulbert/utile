@@ -1,0 +1,27 @@
+{
+  "name": "codevanilla_utile",
+  "homepage": "https://github.com/richardhulbert/utile",
+  "authors": [
+    "richardhulbert <richardhulbert@me.com>"
+  ],
+  "description": "a collection of useful stuff",
+  "main": "/src/utile.js",
+  "keywords": [
+    "table",
+    "builder",
+    "ui",
+    "dateformater"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "bootbox":"4.4.0"
+  }
+}
