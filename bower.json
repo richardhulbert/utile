@@ -12,7 +12,7 @@
     "ui",
     "dateformater"
   ],
-  "main": "/build/utile.min.js",
+  "main": "/build/utile.js",
   "license": "MIT",
   "ignore": [
     "**/.*",
