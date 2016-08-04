@@ -4,13 +4,11 @@
  *
  */
 /*global bootbox */
-/*global BASE_SITE */
 /*global console */
 
 
-jQuery((function($) {
+var Codevanilla_Utile = function(){
 
-    if (!($.CV)) $.CV={};
 
     /**
      * This function takes a bootstrap button with a glyphicon icon and two special attributes
@@ -36,12 +34,6 @@ jQuery((function($) {
         return status;
     }
 
-    /**
-     * Formats a date relative to today
-     * @memberOf jQuery.fn
-     * @param {string} datestring ('2016-03-24 15:57:46')
-     * @param {boolean} withtitle
-     */
     function formatDateAsDaysSince(datestring,withtitle){
         if(datestring===null||datestring==='') return ' - ';
         var oneMinute = 60*1000;
@@ -127,14 +119,12 @@ jQuery((function($) {
         return f;
     }
 
-
     /**
-     * builds a select box with a pre selected id
-     * @memberOf jQuery.fn
-     * @param {Array} arr
+     * This function builds a select element with a pre selected id
+     * @param {Array} arr of objects
      * @param {string} label
-     * @param {int} [id] to match ( the inital value
-     * @param {string} [idfield] for when the record set has a nonstandard id
+     * @param {int} [id] to match ( the initial value)
+     * @param {string} [idfield] the field name for when the record set has a nonstandard id
      */
     function buildSelector(arr,label,id,idfield){
         var sel = $('<select />').addClass('form-control');
@@ -148,8 +138,6 @@ jQuery((function($) {
             return sel;
         }
     }
-
-
     /**
      * This function builds table rows based on a row definition, an array containing the row objects,
      * a target (usually the table body) and whether to append it to the table or empty the table contents
@@ -157,7 +145,6 @@ jQuery((function($) {
      * @param {Array} rows containing objects containing name value pairs for each field
      * @param {string} target where the returned rows are appended to
      * @param {boolean} appendToTable whether to clear the table (true) or not
-     * @memberOf jQuery.fn
      */
     function buildTableRows(rowDef,rows,target,appendToTable){
         /* jshint loopfunc:true */
@@ -289,13 +276,10 @@ jQuery((function($) {
                 }):''
         )
     }
-
-
     /**
-     * General function for sending and recieving via ajax
-     * relies on bootbox
-     * @memberOf jQuery.fn
-     * @param {string} service
+     * General function for sending and receiving via ajax
+     * relies on bootbox to show errors
+     * @param {string} service the address of the API or end point
      * @param {string} type either GET,POST,PUT,DELETE
      * @param {string} address the API endpoint
      * @param {function} resultTo which function to send the results to
@@ -329,32 +313,25 @@ jQuery((function($) {
         });
     }
 
-    /**
-     * called at domready
-     *
-     */
-    function setup(){
-        // declare public methods for this object in the namespace
-        console.log(this);
-        $.CV.utile={
-            'doAjax':function(type,address,resultTo,params,waitobjectSelector){doAjax(type,address,resultTo,params,waitobjectSelector)},
-            'buildSelector':function(arr,label,id,idfield){return buildSelector(arr,label,id,idfield)},
-            'buildTableRows':function(rowDef,rows,target,appendToTable){buildTableRows(rowDef,rows,target,appendToTable)},
-            'formatDateAsDaysSince':function(datestring,withtitle){return formatDateAsDaysSince(datestring,withtitle)},
-            'setTableOrder':function(controller,controllerClass,orderObj,orderDefaultObj){setTableOrder(controller,controllerClass,orderObj,orderDefaultObj)},
-            'buildPaginationUI':function(target,pagniationObj,clickFunction){buildPaginationUI(target,pagniationObj,clickFunction)},
-            'toggleIcon':function(button,status,label){toggleIcon(button,status,label)},
-            'nl2br':function(str){ return nl2br(str) },
-            'br2nl':function(str){ return br2nl(str) },
-            'findRowBykey':function(arr,key,val){ return findRowBykey(arr,key,val)},
-            'extractValuesByKey':function(arr,key){return extractValuesByKey(arr,key)},
-            'addTitleAttr':function(string,title){ return addTitleAttr(string,title)},
-            'goToTrack':function(id){goToTrack(id)}
+
+       return {
+           'doAjax':function(service,type,address,resultTo,params,waitobjectSelector){doAjax(service,type,address,resultTo,params,waitobjectSelector)},
+           'buildSelector':function(arr,label,id,idfield){return buildSelector(arr,label,id,idfield)},
+           'buildTableRows':function(rowDef,rows,target,appendToTable){buildTableRows(rowDef,rows,target,appendToTable)},
+           'formatDateAsDaysSince':function(datestring,withtitle){return formatDateAsDaysSince(datestring,withtitle)},
+           'setTableOrder':function(controller,controllerClass,orderObj,orderDefaultObj){setTableOrder(controller,controllerClass,orderObj,orderDefaultObj)},
+           'buildPaginationUI':function(target,pagniationObj,clickFunction){buildPaginationUI(target,pagniationObj,clickFunction)},
+           'toggleIcon':function(button,status,label){toggleIcon(button,status,label)},
+           'nl2br':function(str){ return nl2br(str) },
+           'br2nl':function(str){ return br2nl(str) },
+           'findRowBykey':function(arr,key,val){ return findRowBykey(arr,key,val)},
+           'extractValuesByKey':function(arr,key){return extractValuesByKey(arr,key)},
+           'addTitleAttr':function(string,title){ return addTitleAttr(string,title)},
         };
 
 
-    }
-    return setup;
-})(jQuery));
+
+
+}
 
 
