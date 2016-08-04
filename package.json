@@ -1,6 +1,6 @@
 {
   "name": "codevanilla_utile",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "devDependencies": {
     "del": "^2.2.1",
     "gulp": "^3.9.1",
