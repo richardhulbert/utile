@@ -68,7 +68,7 @@ var Codevanilla_Utile = function(){
     /**
      * converts the line breaks into br tags
      * @memberOf jQuery.fn
-     * @param {string} str the sting that you want to convert
+     * @param {string} str the string that you want to convert
      * @retun {string} the converted string
      */
     function nl2br(str){

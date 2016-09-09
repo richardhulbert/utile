@@ -1,6 +1,6 @@
 {
   "name": "codevanilla_utile",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/richardhulbert/utile",
   "authors": [
     "richardhulbert <richardhulbert@me.com>"
@@ -19,10 +19,15 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "src"
   ],
   "dependencies": {
     "jquery": "^3.1.0",
     "bootbox":"4.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/richardhulbert/utile.git"
   }
 }

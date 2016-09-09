@@ -15,5 +15,7 @@
     <orderEntry type="library" name="jasmine-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="jasmine-jquery-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="jasmine-node-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="jasmine" level="project" />
+    <orderEntry type="library" name="utile" level="project" />
   </component>
 </module>
