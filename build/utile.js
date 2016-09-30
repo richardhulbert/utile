@@ -21,6 +21,7 @@ var Codevanilla_Utile = function(){
     function toggleIcon(button,status,label){
         // is this a fontawsome button or a glyphicon button
         /* jshint expr: true */
+        button = typeof button==="object"?button:$(button);
         var fa = $(button).find('i').length===1;
         if(status===null) status = $(button).hasClass('toggled')===false;
         if(status){
@@ -197,6 +198,27 @@ var Codevanilla_Utile = function(){
         }
 
     }
+
+    /**
+     * Builds a table based upon a table definition object using data
+     * @param {array} rowDef an array of column defnitions
+     * @param {array} data and array of data objects
+     * @param {Object|string}target a dom reference where the Table will reside
+     * @param {string} tableId is dom Id that you wwatn to give your table (so you can refernce it later on
+      */
+    function buildTable(rowDef,data,target,tableId){
+        target = typeof target==="object"?target:$(target);
+        target.empty();
+        var headerTr = $('<tr/>');
+        var table=$('<table/>').attr({id:tableId}).addClass('table table-bordered table-hover dataTable').append(
+            $('<thead/>').html(headerTr)
+        ).appendTo(target);
+
+      for(row in rowDef){
+          $('<th/>').html(row.header.title).appendTo(headerTr);
+      }
+
+    }
     /**
      * This method prepares the arguments for a function
      * Argument objects with a type of 'lookup' will return the value found in the row object (if there is one)
@@ -279,6 +301,7 @@ var Codevanilla_Utile = function(){
     /**
      * General function for sending and receiving via ajax
      * relies on bootbox to show errors
+     * @memberOf jQuery.fn
      * @param {string} service the address of the API or end point
      * @param {string} type either GET,POST,PUT,DELETE
      * @param {string} address the API endpoint
@@ -314,20 +337,20 @@ var Codevanilla_Utile = function(){
     }
 
 
-       return {
-           'doAjax':function(service,type,address,resultTo,params,waitobjectSelector){doAjax(service,type,address,resultTo,params,waitobjectSelector)},
-           'buildSelector':function(arr,label,id,idfield){return buildSelector(arr,label,id,idfield)},
-           'buildTableRows':function(rowDef,rows,target,appendToTable){buildTableRows(rowDef,rows,target,appendToTable)},
-           'formatDateAsDaysSince':function(datestring,withtitle){return formatDateAsDaysSince(datestring,withtitle)},
-           'setTableOrder':function(controller,controllerClass,orderObj,orderDefaultObj){setTableOrder(controller,controllerClass,orderObj,orderDefaultObj)},
-           'buildPaginationUI':function(target,pagniationObj,clickFunction){buildPaginationUI(target,pagniationObj,clickFunction)},
-           'toggleIcon':function(button,status,label){toggleIcon(button,status,label)},
-           'nl2br':function(str){ return nl2br(str) },
-           'br2nl':function(str){ return br2nl(str) },
-           'findRowBykey':function(arr,key,val){ return findRowBykey(arr,key,val)},
-           'extractValuesByKey':function(arr,key){return extractValuesByKey(arr,key)},
-           'addTitleAttr':function(string,title){ return addTitleAttr(string,title)},
-        };
+    return {
+        'doAjax':function(service,type,address,resultTo,params,waitobjectSelector){doAjax(service,type,address,resultTo,params,waitobjectSelector)},
+        'buildSelector':function(arr,label,id,idfield){return buildSelector(arr,label,id,idfield)},
+        'buildTableRows':function(rowDef,rows,target,appendToTable){buildTableRows(rowDef,rows,target,appendToTable)},
+        'formatDateAsDaysSince':function(datestring,withtitle){return formatDateAsDaysSince(datestring,withtitle)},
+        'setTableOrder':function(controller,controllerClass,orderObj,orderDefaultObj){setTableOrder(controller,controllerClass,orderObj,orderDefaultObj)},
+        'buildPaginationUI':function(target,pagniationObj,clickFunction){buildPaginationUI(target,pagniationObj,clickFunction)},
+        'toggleIcon':function(button,status,label){toggleIcon(button,status,label)},
+        'nl2br':function(str){ return nl2br(str) },
+        'br2nl':function(str){ return br2nl(str) },
+        'findRowBykey':function(arr,key,val){ return findRowBykey(arr,key,val)},
+        'extractValuesByKey':function(arr,key){return extractValuesByKey(arr,key)},
+        'addTitleAttr':function(string,title){ return addTitleAttr(string,title)},
+    };
 
 
 

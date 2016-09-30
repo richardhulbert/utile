@@ -1,27 +1,5 @@
 {
   "source": {
-  "include": [ "src/" ],
-  "includePattern": ".+\\.js(doc)?$",
-  "excludePattern": "(^|\\/|\\\\)_"
-},
-  "opts": {
-  "templates": {
-    "systemName": "Utile from codevanills",
-    "footer": "",
-    "copyright": "Code Vanilla 2016",
-    "includeDate": "true",
-    "navType": "vertical",
-    "theme": "paper",
-    "linenums": "true",
-    "outputSourceFiles": "{boolean}",
-    "outputSourcePath": "{boolean}",
-    "dateFormat": "dddd, MMMM Do YYYY",
-    "syntaxTheme": "default",
-    "encoding": "utf8",
-    // same as -e utf8
-    "destination": "./docs/",
-    // same as -d ./out/
-  }
-
-  }
+  "include": [ "./src/" ]
+}
 }

@@ -16,4 +16,5 @@ describe('A suite to test Utile', function() {
         var str='line 1 <br />line 2';
         expect(utile.br2nl(str)).toMatch('line 1 '+"\n"+'line 2');
     });
+
 });
