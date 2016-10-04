@@ -40,14 +40,14 @@ var rowDef=[
 |--------|--------|--------|
 
 Each column object will have the following properties`:
-####header
+<h4>header</h4>
 This property defines the content and interaction of header (`<th>`) for the column.
 It contains the following:-`
 An object containing a **title** property
 ```javascript
 header:{title:'column header'}
 ```
-####display
+<h4>display</h4>
 This property defines what is shown in the table cell (`<td>`) for each column.
 An array of objects that concatenate together in the td. 
 You can pass three types of object:
@@ -70,7 +70,7 @@ _type_ is currently 'lookup' or 'literal'. literal simply passes whatever is in 
  display:[{formatDateAsDaysSince,args:[{type:'lookup',value:'last_login'},{type:'literal',value:true}]}]
 ```
 
-####action
+<h4>action</h4>
 The action property is where you can set an event handler the value of this property is an object.
 The action property can be an array or a single object containing the following properties:
 type - the type of event such as 'click'
@@ -81,6 +81,6 @@ args - the arguments passed to the function
 ```javascript
  action:{type:'click',func:getAccount,args:[{type:'lookup',value:'id'}]}
 ```
-####ClassName
+<h4>ClassName</h4>
 This defines any classes you want to apply to a td
 

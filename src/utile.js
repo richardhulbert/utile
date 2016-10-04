@@ -234,25 +234,34 @@ var Codevanilla_Utile = function(){
 
     /**
      * Builds a table based upon a table definition object using data
-     * @param {array} rowDef an array of column defnitions
-     * @param {array} data and array of data objects
+     * @param {Array} rowDef an array of column definitions
+     * @param {Array} data and array of data objects
      * @param {Object|string} target a dom reference where the Table will reside
-     * @param {string} tableId is dom Id that you wwatn to give your table (so you can refernce it later on
+     * @param {String} tableId is dom Id that you wwatn to give your table (so you can reference it later on
+     * @param {Object} [paginationObject] an pagination object {offset:1,limit,10,total_rows:200}
+     * @param {Function} [paginationClickFunction] the function that is going to run as a result of the button being clicked
+     *
       */
-    function buildTable(rowDef,data,target,tableId){
+    function buildTable(rowDef,data,target,tableId,paginationObject,paginationClickFunction){
         target = typeof target==="object"?target:$(target);
         target.empty();
         var headerTr = $('<tr/>');
         var tbody = $('<tbody/>');
+        var tfooter = $('<tfoot/>');
+        var paginationtd = $('<td/>').attr({'colspan':rowDef.length}).appendTo(tfooter);
         var table=$('<table/>').attr({id:tableId}).addClass('table table-bordered table-hover dataTable').append(
             $('<thead/>').html(headerTr)
-        ).append(tbody).appendTo(target);
+        ).append(tbody).append(tfooter).appendTo(target);
 
       for(i in rowDef){
           var row = rowDef[i];
           $('<th/>').html(row.header.title).appendTo(headerTr);
       }
         buildTableRows(rowDef,data,tbody);
+        if(paginationObject !=undefined && paginationClickFunction!=undefined){
+            buildPaginationUI(paginationtd,paginationObject,paginationClickFunction);
+        }
+
     }
     /**
      * Prepares the arguments for a function
@@ -285,6 +294,7 @@ var Codevanilla_Utile = function(){
      * @param {string} controllerClass one for each table on a page
      * @param {Object} orderObj consists of field (in the db), controller (the id of the TH) and direction (either DESC or ASC)
      * @param {Object} orderDefaultObj is structured as the orderObj but contains default sort properties.
+     * @TODO inergrate into buildTable
      *
      */
     function setTableOrder(controller,controllerClass,orderObj,orderDefaultObj){
@@ -318,17 +328,16 @@ var Codevanilla_Utile = function(){
      * Builds a pagination button (if required), that updates the passed pagination object.offset and
      * inserts it into the DOM attaching it to the target
      *
-     * 
+     *
      *  @param {string} target jquery selector to add the more... button to
      *  @param {object} pagniationObj pagniation object consists of offset and limit
      *  @param {function} clickFunction the function fired by the button
      */
     function buildPaginationUI(target,pagniationObj,clickFunction){
-        console.log(pagniationObj)
         $(target).empty().html(
             (parseInt(pagniationObj.offset)+parseInt(pagniationObj.limit) < parseInt(pagniationObj.total_rows) )?
-                $('<button/>').text("more...").addClass('btn btn-primary col-md-offset-5').click(function(){
-                    pagniationObj.offset= parseInt(pagniationObj.offset)+parseInt(pagniationObj.limit)
+                $('<button/>').text("more...").addClass('btn btn-primary ').click(function(){
+                    pagniationObj.offset= parseInt(pagniationObj.offset)+parseInt(pagniationObj.limit);
                     clickFunction(true);
                 }):''
         )
@@ -337,17 +346,17 @@ var Codevanilla_Utile = function(){
      * General function for sending and receiving via ajax. This could be a REST endpoint or a plain old ajax service
      * relies on bootbox to show errors
      *
-     * @param {string} service The address of the API or end point
-     * @param {string} type Either GET,POST,PUT,DELETE
-     * @param {string} address The API endpoint
-     * @param {function} resultTo Which function to send the results to
-     * @param {object} [params]  An object of key:value pairs
-     * @param {string} [waitobjectSelector] The selector for the wait object (spinner)
-     * @param {object} [header] Custom headers in the form {'my-custom-header:'header-value'}
+     * @param {String} service The address of the API or end point
+     * @param {String} type Either GET,POST,PUT,DELETE
+     * @param {String} address The API endpoint
+     * @param {Function} resultTo Which function to send the results to
+     * @param {Object} [paramObj]  An object of key:value pairs
+     * @param {String} [waitobjectSelector] The selector for the wait object (spinner)
+     * @param {Object} [header] Custom headers in the form {'my-custom-header:'header-value'}
      */
-    function doAjax(service,type,address,resultTo,params,waitobjectSelector,header){
+    function doAjax(service,type,address,resultTo,paramObj,waitobjectSelector,header){
         if(typeof resultTo !=='function') console.error('You must pass a functionn to doAjax'+resultTo);
-        var params =  (params === undefined)?'':'?'+jQuery.param( params );
+        var params =  (paramObj === undefined)?'':'?'+jQuery.param( paramObj );
         if(waitobjectSelector!== undefined) $(waitobjectSelector).addClass('active');
         var h =  (header === undefined)?{}:header;
         $.ajax({
@@ -378,7 +387,7 @@ var Codevanilla_Utile = function(){
     return {
         'doAjax':function(service,type,address,resultTo,params,waitobjectSelector){doAjax(service,type,address,resultTo,params,waitobjectSelector)},
         'buildSelector':function(arr,label,id,idfield){return buildSelector(arr,label,id,idfield)},
-        'buildTable':function(rowDef,data,target,tableId){buildTable(rowDef,data,target,tableId)},
+        'buildTable':function(rowDef,data,target,tableId,pagniationObj,paginationClickFunction){buildTable(rowDef,data,target,tableId,pagniationObj,paginationClickFunction)},
         'buildTableRows':function(rowDef,rows,target,appendToTable){buildTableRows(rowDef,rows,target,appendToTable)},
         'formatDateAsDaysSince':function(datestring,withtitle){return formatDateAsDaysSince(datestring,withtitle)},
         'setTableOrder':function(controller,controllerClass,orderObj,orderDefaultObj){setTableOrder(controller,controllerClass,orderObj,orderDefaultObj)},
@@ -388,12 +397,9 @@ var Codevanilla_Utile = function(){
         'br2nl':function(str){ return br2nl(str) },
         'findRowBykey':function(arr,key,val){ return findRowBykey(arr,key,val)},
         'extractValuesByKey':function(arr,key){return extractValuesByKey(arr,key)},
-        'addTitleAttr':function(string,title){ return addTitleAttr(string,title)},
+        'addTitleAttr':function(string,title){ return addTitleAttr(string,title)}
     };
 
-
-
-
-}
+};
 
 

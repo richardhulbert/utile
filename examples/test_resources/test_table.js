@@ -3,6 +3,7 @@
  */
 jQuery((function($) {
    var utile = new Codevanilla_Utile();
+    var paginationObject ={offset:0,limit:10,total_rows:200};
     var rowDef =[
         {
             header:{title:'name'},
@@ -27,7 +28,7 @@ jQuery((function($) {
 
 
     function moreInfo(row){
-        console.log(row)
+        console.log(row);
         message = row.name+"'s company catchphrase is: "+row.company.catchPhrase;
         bootbox.alert({title:row.name,'message':message});
     }
@@ -41,8 +42,13 @@ jQuery((function($) {
 
     }
 
+    function pretendTopaginate(){
+        var message  = "Generally The button will increment the offset in the paginationObject to maintain the state of the pagination on the client" ;
+        bootbox.alert({title:'pretend pagination','message':message});
+    }
+
     function buildTestTable(result){
-    utile.buildTable(rowDef,result,'#table_holder','uitle_table');
+    utile.buildTable(rowDef,result,'#table_holder','uitle_table',paginationObject,pretendTopaginate);
     }
 
     function setup(){

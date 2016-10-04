@@ -1,11 +1,11 @@
 {
   "name": "codevanilla_utile",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://github.com/richardhulbert/utile",
   "authors": [
     "richardhulbert <richardhulbert@me.com>"
   ],
-  "description": "a collection of useful stuff",
+  "description": "A collection of useful stuff centered around a table builder",
   "keywords": [
     "table",
     "builder",
@@ -19,7 +19,7 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests",
+    "tests" ,
     "src"
   ],
   "dependencies": {
