@@ -261,7 +261,6 @@ var Codevanilla_Utile = function(){
         if(paginationObject !=undefined && paginationClickFunction!=undefined){
             buildPaginationUI(paginationtd,paginationObject,paginationClickFunction);
         }
-
     }
     /**
      * Prepares the arguments for a function
