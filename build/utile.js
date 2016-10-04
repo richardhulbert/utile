@@ -6,17 +6,23 @@
 /*global bootbox */
 /*global console */
 
-
+/**
+ *
+ *  @constructor
+ */
 var Codevanilla_Utile = function(){
 
 
     /**
-     * This function takes a bootstrap button with a glyphicon icon and two special attributes
-     * data-icon-1 and data-icon-2 each of these attributes contains the classname for their respective icon
-     * @memberOf jQuery.fn
-     * @param {Object} button
-     * @param {boolean} status [optional] allows us to set the status of a button. True
-     * @param {string} label [optional] allows you to change the text of the button
+     * This method controls a bootstrap button with a glyphicon or fontawsome icon to toggle. The button needs two special attributes
+     * data-icon-1 and data-icon-2 each of these attributes contains the classname for their respective icon.
+     * You can force it to be in one state or another by passing the status argument
+     * You can pass it a label
+     *
+     *
+     * @param {Object} button The button object
+     * @param {boolean} [status] Allows us to set the status of a button. True
+     * @param {string} [label] Allows you to change the text of the button
      */
     function toggleIcon(button,status,label){
         // is this a fontawsome button or a glyphicon button
@@ -35,6 +41,14 @@ var Codevanilla_Utile = function(){
         return status;
     }
 
+    /**
+     * This method takes a date string (2015-03-14 15:36:01) or null and returrns either a
+     * pretty sting such as Just now or n Days ago. If you pass it a second boolean argument
+     * it will return a span with the orginal value as the title attribute (so that a user can see the exact date and time on a hover
+     * @param {string} datestring In the currrent format 2015-03-14 15:36:01
+     * @param {boolean} [withtitle] If you want
+     * @returns {*} Either string with the pretty date or a span with the same and a title attribute that has value of passed string
+     */
     function formatDateAsDaysSince(datestring,withtitle){
         if(datestring===null||datestring==='') return ' - ';
         var oneMinute = 60*1000;
@@ -63,12 +77,20 @@ var Codevanilla_Utile = function(){
 
     }
 
+    /**
+     * Takes a string and converts it into a span (jQuery object) and adds a title attribute
+     * Useful when you want to highlight text. If you are using bootstrap it will force it to be a tooltip
+     *
+     * @param {string} string The text in the span
+     * @param {string} title  The value of title attribute
+     * @returns {*|jQuery} A span
+     */
     function addTitleAttr(string,title){
         return $('<span/>').attr({'data-toggle':"tooltip", 'data-placement':"auto left",'title':title}).text(string);
     }
     /**
-     * converts the line breaks into br tags
-     * @memberOf jQuery.fn
+     * Converts the line breaks in a string into br tags
+     *
      * @param {string} str the sting that you want to convert
      * @retun {string} the converted string
      */
@@ -76,8 +98,8 @@ var Codevanilla_Utile = function(){
         return str.replace(/(?:\r\n|\r|\n)/g, '<br />');
     }
     /**
-     * convertes the br tags into line breaks
-     * @memberOf jQuery.fn
+     * Converts the br tags in a string into line breaks
+     *
      * @param {string} html the sting that you want to convert
      * @retun {string} the converted string
      */
@@ -85,11 +107,11 @@ var Codevanilla_Utile = function(){
         return html.replace(/<br\s*[\/]?>/gi, "\n");
     }
     /**
-     * returns a row from an array of rows given a filed key and a value for that key
-     * @memberOf jQuery.fn
-     * @param {Array} arr the array we are going to search
-     * @param {string} key the key we are glong to try to match
-     * @param val
+     * Returns a row from an array of rows given a field key and a value for that key
+     *
+     * @param {Array} arr The array we are going to search
+     * @param {string} key The key we are going to use to try to match the value
+     * @param {*} val The value we are going to match against
      * @returns {object}
      */
     function findRowBykey(arr,key,val){
@@ -103,10 +125,18 @@ var Codevanilla_Utile = function(){
         return row;
     }
     /**
-     * takes an array of objects and outputs an array of values for a key in each object
+     * <p>Takes an array of objects and outputs an array of values for a key in each object</p>
+     * @example extractValuesByKey([{firstname:'Alice',lastname:'Bear'},{firstname:'Steve',lastname:'Farr'}] , 'firstname')
+     * // outputs ['Alice','Steve']
+     *
+     * @example
+     * //it can do nested object keys
+     * extractValuesByKey([{firstname:'Alice',email:{public:'alice@acme.com',private:'alice@hotmail.com'},{firstname:'Steve',email:{public:'steve@acme.com',private:'steve@hotmail.com'}],'email.public')
+     * //becomes ['alice@acme.com','steve@acme.com']
+     *
      * @param {Array}  arr array of objects
      * @param {string} key  can be a simple key or an expression such as key.subkey
-     * @memberOf jQuery.fn
+     *
      * @returns {Array} straight array of values
      *
      */
@@ -121,11 +151,11 @@ var Codevanilla_Utile = function(){
     }
 
     /**
-     * This function builds a select element with a pre selected id
+     * Builds a select element with an optional pre selected id
      * @param {Array} arr of objects
-     * @param {string} label
+     * @param {string} label the Key of the object whoes value will be the text of the option
      * @param {int} [id] to match ( the initial value)
-     * @param {string} [idfield] the field name for when the record set has a nonstandard id
+     * @param {string} [idfield] The field name for when the record set has a nonstandard id
      */
     function buildSelector(arr,label,id,idfield){
         var sel = $('<select />').addClass('form-control');
@@ -140,12 +170,13 @@ var Codevanilla_Utile = function(){
         }
     }
     /**
-     * This function builds table rows based on a row definition, an array containing the row objects,
+     * Builds table rows based on a row definition, an array containing the row objects,
      * a target (usually the table body) and whether to append it to the table or empty the table contents
+     * NB you would usually use the buildTable method that calls this method
      * @param {Object} rowDef a complex object that defines the content and attributes of each td in the row
      * @param {Array} rows containing objects containing name value pairs for each field
      * @param {string} target where the returned rows are appended to
-     * @param {boolean} appendToTable whether to clear the table (true) or not
+     * @param {boolean} [appendToTable] whether to clear the table (true) or not
      */
     function buildTableRows(rowDef,rows,target,appendToTable){
         /* jshint loopfunc:true */
@@ -161,9 +192,7 @@ var Codevanilla_Utile = function(){
                 var txt ='';
                 $.each(td.display,function(key,val){
                     if(!!val.func) {
-
                         $(TD).append(val.func.apply(this,parseArguments(row,val.args)));
-
                     }
                     if(!!val.row) {$(TD).append(row[val.row]);}
                     if(!!val.literal){$(TD).append(val.literal);}
@@ -171,12 +200,18 @@ var Codevanilla_Utile = function(){
                 });
                 // is there an action that we want such as a click event?
                 if(td.action!==undefined){
-                    switch (td.action.type){
-                        case 'click':$(TD).click(function(){
-                            td.action.func($(this).closest('tr').data()[td.action.data]);
+                    if(Array.isArray(td.action)){
+                        $.each(td.action,function(key,val){
+                            $(TD).on(val.type, function (e) {
+                                val.func.apply(this, parseArguments($(e.currentTarget).closest('.dataRow').data(), val.args));
+                            })
+                        })
+                    }else {
+                        $(TD).on(td.action.type, function (e) {
+                            td.action.func.apply(this, parseArguments($(e.currentTarget).closest('.dataRow').data(), td.action.args));
                         }).addClass('quasiLink');
-                            break;
                     }
+
                 }else{
                     if(txt!=='') TD.html(txt);
                 }
@@ -185,7 +220,7 @@ var Codevanilla_Utile = function(){
                     // we can pass a literal string or a function based upon the data in the row
                     if(!!td.className.func){
                         //ok this is a function so lets add the class based on the function
-                        TD.addClass(td.className.func(row[td.className.row]));
+                        TD.addClass(td.className.func.apply(this,parseArguments(row,td.className.args)));
                     }else{
                         // just add the literal string
                         TD.addClass(td.className.literal);
@@ -193,34 +228,43 @@ var Codevanilla_Utile = function(){
 
                 }
             });
-
-
         }
 
     }
 
     /**
      * Builds a table based upon a table definition object using data
-     * @param {array} rowDef an array of column defnitions
-     * @param {array} data and array of data objects
-     * @param {Object|string}target a dom reference where the Table will reside
-     * @param {string} tableId is dom Id that you wwatn to give your table (so you can refernce it later on
+     * @param {Array} rowDef an array of column definitions
+     * @param {Array} data and array of data objects
+     * @param {Object|string} target a dom reference where the Table will reside
+     * @param {String} tableId is dom Id that you wwatn to give your table (so you can reference it later on
+     * @param {Object} [paginationObject] an pagination object {offset:1,limit,10,total_rows:200}
+     * @param {Function} [paginationClickFunction] the function that is going to run as a result of the button being clicked
+     *
       */
-    function buildTable(rowDef,data,target,tableId){
+    function buildTable(rowDef,data,target,tableId,paginationObject,paginationClickFunction){
         target = typeof target==="object"?target:$(target);
         target.empty();
         var headerTr = $('<tr/>');
+        var tbody = $('<tbody/>');
+        var tfooter = $('<tfoot/>');
+        var paginationtd = $('<td/>').attr({'colspan':rowDef.length}).appendTo(tfooter);
         var table=$('<table/>').attr({id:tableId}).addClass('table table-bordered table-hover dataTable').append(
             $('<thead/>').html(headerTr)
-        ).appendTo(target);
+        ).append(tbody).append(tfooter).appendTo(target);
 
-      for(row in rowDef){
+      for(i in rowDef){
+          var row = rowDef[i];
           $('<th/>').html(row.header.title).appendTo(headerTr);
       }
+        buildTableRows(rowDef,data,tbody);
+        if(paginationObject !=undefined && paginationClickFunction!=undefined){
+            buildPaginationUI(paginationtd,paginationObject,paginationClickFunction);
+        }
 
     }
     /**
-     * This method prepares the arguments for a function
+     * Prepares the arguments for a function
      * Argument objects with a type of 'lookup' will return the value found in the row object (if there is one)
      * Other arguments are just added to the array that is returned.
      * @param {object} row a record containing data
@@ -231,12 +275,12 @@ var Codevanilla_Utile = function(){
     function parseArguments(row, fields) {
         var args = [];
         $.each(fields, function(index, value) {
-            if (value.type ==='lookup'){
-                // lookup from row object
-                args.push(row[value.value]);
-            }else{
-                // just add the literal value
-                args.push(value.value);
+            switch(value.type){
+                case 'lookup': args.push(row[value.value]);
+                    break;
+                case 'row':args.push(row);
+                    break;
+                default:args.push(value.value);
             }
         });
         return args;
@@ -250,7 +294,8 @@ var Codevanilla_Utile = function(){
      * @param {string} controllerClass one for each table on a page
      * @param {Object} orderObj consists of field (in the db), controller (the id of the TH) and direction (either DESC or ASC)
      * @param {Object} orderDefaultObj is structured as the orderObj but contains default sort properties.
-     * @memberOf jQuery.fn
+     * @TODO inergrate into buildTable
+     *
      */
     function setTableOrder(controller,controllerClass,orderObj,orderDefaultObj){
         var hashedId = '#'+controller;
@@ -283,39 +328,41 @@ var Codevanilla_Utile = function(){
      * Builds a pagination button (if required), that updates the passed pagination object.offset and
      * inserts it into the DOM attaching it to the target
      *
-     *  @memberOf jQuery.fn
+     *
      *  @param {string} target jquery selector to add the more... button to
      *  @param {object} pagniationObj pagniation object consists of offset and limit
      *  @param {function} clickFunction the function fired by the button
      */
     function buildPaginationUI(target,pagniationObj,clickFunction){
-        console.log(pagniationObj)
         $(target).empty().html(
             (parseInt(pagniationObj.offset)+parseInt(pagniationObj.limit) < parseInt(pagniationObj.total_rows) )?
-                $('<button/>').text("more...").addClass('btn btn-primary col-md-offset-5').click(function(){
-                    pagniationObj.offset= parseInt(pagniationObj.offset)+parseInt(pagniationObj.limit)
+                $('<button/>').text("more...").addClass('btn btn-primary ').click(function(){
+                    pagniationObj.offset= parseInt(pagniationObj.offset)+parseInt(pagniationObj.limit);
                     clickFunction(true);
                 }):''
         )
     }
     /**
-     * General function for sending and receiving via ajax
+     * General function for sending and receiving via ajax. This could be a REST endpoint or a plain old ajax service
      * relies on bootbox to show errors
-     * @memberOf jQuery.fn
-     * @param {string} service the address of the API or end point
-     * @param {string} type either GET,POST,PUT,DELETE
-     * @param {string} address the API endpoint
-     * @param {function} resultTo which function to send the results to
-     * @param {object} [params] an object of key:value pairs
-     * @param {string} [waitobjectSelector] the selector for the wait object (spinner)
+     *
+     * @param {String} service The address of the API or end point
+     * @param {String} type Either GET,POST,PUT,DELETE
+     * @param {String} address The API endpoint
+     * @param {Function} resultTo Which function to send the results to
+     * @param {Object} [paramObj]  An object of key:value pairs
+     * @param {String} [waitobjectSelector] The selector for the wait object (spinner)
+     * @param {Object} [header] Custom headers in the form {'my-custom-header:'header-value'}
      */
-    function doAjax(service,type,address,resultTo,params,waitobjectSelector){
+    function doAjax(service,type,address,resultTo,paramObj,waitobjectSelector,header){
         if(typeof resultTo !=='function') console.error('You must pass a functionn to doAjax'+resultTo);
-        var params =  (params === undefined)?'':'?'+jQuery.param( params );
+        var params =  (paramObj === undefined)?'':'?'+jQuery.param( paramObj );
         if(waitobjectSelector!== undefined) $(waitobjectSelector).addClass('active');
+        var h =  (header === undefined)?{}:header;
         $.ajax({
             type:type,
             url: service+address+params,
+            header:h,
             success:function(result){
                 if(waitobjectSelector!== undefined) $(waitobjectSelector).removeClass('active');
                 if(result.error===undefined){
@@ -336,10 +383,11 @@ var Codevanilla_Utile = function(){
         });
     }
 
-
+    // offer these functions to the world
     return {
         'doAjax':function(service,type,address,resultTo,params,waitobjectSelector){doAjax(service,type,address,resultTo,params,waitobjectSelector)},
         'buildSelector':function(arr,label,id,idfield){return buildSelector(arr,label,id,idfield)},
+        'buildTable':function(rowDef,data,target,tableId,pagniationObj,paginationClickFunction){buildTable(rowDef,data,target,tableId,pagniationObj,paginationClickFunction)},
         'buildTableRows':function(rowDef,rows,target,appendToTable){buildTableRows(rowDef,rows,target,appendToTable)},
         'formatDateAsDaysSince':function(datestring,withtitle){return formatDateAsDaysSince(datestring,withtitle)},
         'setTableOrder':function(controller,controllerClass,orderObj,orderDefaultObj){setTableOrder(controller,controllerClass,orderObj,orderDefaultObj)},
@@ -349,12 +397,9 @@ var Codevanilla_Utile = function(){
         'br2nl':function(str){ return br2nl(str) },
         'findRowBykey':function(arr,key,val){ return findRowBykey(arr,key,val)},
         'extractValuesByKey':function(arr,key){return extractValuesByKey(arr,key)},
-        'addTitleAttr':function(string,title){ return addTitleAttr(string,title)},
+        'addTitleAttr':function(string,title){ return addTitleAttr(string,title)}
     };
 
-
-
-
-}
+};
 
 
