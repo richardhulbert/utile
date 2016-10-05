@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Documentation Index</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cerulean.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top ">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">Documentation</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="Codevanilla_Utile.html">Codevanilla_Utile</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+
+
+
+
+    <section class="readme-section">
+        <article><h1>Welcome to Utile</h1>
+
+<p>This is a bit of a mishmash of utilities that I am gradually pulling together into one js file for convenience. Uitle is latin for useful thing in case you are wondering. </p>
+<p>Currently it contains the following methods:</p>
+<ul>
+<li><strong>doAjax</strong> - General function for sending and receiving via ajax to REST or any other JSON service (relies) on bootbox to show errors <a href="Codevanilla_Utile.html#~doAjax__anchor">docs</a></li>
+<li><strong>formatDateAsDaysSince</strong> - a pretty date function you give it a date string('Fri Sep 30 2016 12:54:08 GMT+0100 (BST)') and it returns a more human respons such as yesterday or 2 months ago</li>
+<li><strong>buildSelector</strong> - builds a select box from data (an array of objects containing records) </li>
+<li><strong>buildTable</strong> - builds a table using data (an array of objects containing records) that is shaped by a <a href="#rowdef">configuration object</a></li>
+<li><strong>buildTableRows</strong> - builds table rows using data and a <a href="#rowdef">configuration object</a></li>
+<li><strong>nl2br</strong> -  converts the line breaks into br tags</li>
+<li><strong>br2nl</strong> - converts the br tags into line breaks</li>
+<li><strong>indRowBykey</strong> - returns a row from an array of rows given a filed key and a value for that key</li>
+<li><strong>extractValuesByKey</strong> - takes an array of objects and outputs an array of values for a key in each object</li>
+</ul>
+<p>You can see all the docs with a little bit of explanation <a href="Codevanilla_Utile.html">here</a></p>
+<p>You can install it using bower</p>
+<pre class="prettyprint source"><code>bower install codevanilla_utile</code></pre><p><a name="rowdef"><h3>Row Definition for tables</h3></a></p>
+<p>In order to use buildTable() or buildTableRows() you need to pass it a configuration object.
+This object defines how your table with look -  The header text and its sortability, which fields or values to use for each cell in each row of data, and what method to invoke on click or hover.</p>
+<p>The row definition object is an array where each object in the array represents a  column</p>
+<pre class="prettyprint source lang-javascript"><code>var rowDef=[
+{header:{title:'column 1'}}
+{header:{title:'column 2'}}
+{header:{title:'column 3'}}
+}
+]</code></pre><table>
+<thead>
+<tr>
+<th>column 1</th>
+<th>column 2</th>
+<th>column 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Each column object will have the following properties`:</p>
+<p><h4>header</h4>
+This property defines the content and interaction of header (<code>&lt;th&gt;</code>) for the column.
+It contains the following:-`
+An object containing a <strong>title</strong> property</p>
+<pre class="prettyprint source lang-javascript"><code>header:{title:'column header'}</code></pre><p><h4>display</h4>
+This property defines what is shown in the table cell (<code>&lt;td&gt;</code>) for each column.
+An array of objects that concatenate together in the td. 
+You can pass three types of object:</p>
+<p>1 <strong>literal</strong> - this places a literal string in the td</p>
+<pre class="prettyprint source lang-javascript"><code>display:[literal:' & '}]</code></pre><p>2 <strong>row</strong> - this looks up the value (in the data row) using the key and places that in the td</p>
+<pre class="prettyprint source lang-javascript"><code>display:[{row:'firstName'},{literal:' '},{row:'lastName'}]</code></pre><p>3 <strong>function</strong> - This places the product of a function into the td. 
+It has two properties the first is the reference to a function and the second is args which is an array of objects describing the arguments to be passed to the function.
+These function argument objects have two properties: <em>type</em> and <em>value</em>.
+<em>type</em> is currently 'lookup' or 'literal'. literal simply passes whatever is in the value property fo the object into the function. Lookup passes whatever the value of the key in the data row</p>
+<pre class="prettyprint source lang-javascript"><code> display:[{formatDateAsDaysSince,args:[{type:'lookup',value:'last_login'},{type:'literal',value:true}]}]</code></pre><p><h4>action</h4>
+The action property is where you can set an event handler the value of this property is an object.
+The action property can be an array or a single object containing the following properties:
+type - the type of event such as 'click'
+func - a reference to a funciton
+args - the arguments passed to the function</p>
+<pre class="prettyprint source lang-javascript"><code> action:{type:'click',func:getAccount,args:[{type:'lookup',value:'id'}]}</code></pre><p><h4>ClassName</h4>
+This defines any classes you want to apply to a td</p></article>
+    </section>
+
+
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a>
+	
+		on October 4th 2016, 3:19:47 pm
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>
