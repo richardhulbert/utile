@@ -29,7 +29,7 @@ var Codevanilla_Utile = function(){
         /* jshint expr: true */
         button = typeof button==="object"?button:$(button);
         var fa = $(button).find('i').length===1;
-        if(status===null) status = $(button).hasClass('toggled')===false;
+        if(status==null) status = $(button).hasClass('toggled')===false;
         if(status){
             fa ? $(button).addClass('toggled').children('i.fa').removeClass($(button).attr('data-icon-2')).addClass($(button).attr('data-icon-1')):$(button).removeClass('toggled').children('span.glyphicon').removeClass($(button).attr('data-icon-2')).addClass($(button).attr('data-icon-1'));
 
@@ -169,6 +169,58 @@ var Codevanilla_Utile = function(){
             return sel;
         }
     }
+
+
+    /**
+     * Builds a table based upon a table definition object using data
+     * @param {Array} rowDef an array of column definitions
+     * @param {Array} data and array of data objects
+     * @param {Object|string} target a dom reference where the Table will reside
+     * @param {String} tableId is dom Id that you want to give your table (so you can reference it later on
+     * @param {Object} [paginationObject] an pagination object {offset:1,limit,10,total_rows:200}
+     * @param {Function} [paginationClickFunction] the function that is going to run as a result of the button being clicked
+     *
+     */
+    function buildTable(rowDef,data,target,tableId,paginationObject,paginationClickFunction,sortHeaderClass){
+        target = typeof target==="object"?target:$(target);
+        target.empty();
+        var paginationTdId = Math.floor((Math.random() * 10000) + 1)+'_paginationTdId';
+        var headerTr = $('<tr/>');
+        var tbody = $('<tbody/>');
+        var tfooter = $('<tfoot/>');
+        var paginationtd = $('<td/>').attr({'colspan':rowDef.length,id:paginationTdId}).appendTo(tfooter);
+        var table=$('<table/>').attr({id:tableId}).addClass('table table-bordered table-hover dataTable').append(
+            $('<thead/>').html(headerTr)
+        ).append(tbody).append(tfooter).appendTo(target);
+
+        buildTableHeader(rowDef,headerTr,sortHeaderClass);
+        buildTableRows(rowDef,data,tbody);
+        if(paginationObject !=undefined && paginationClickFunction!=undefined&& (parseInt(paginationObject.offset)+parseInt(paginationObject.limit) < parseInt(paginationObject.total_rows) )){
+            paginationtd.html($('<button/>').text("more...").addClass('btn btn-primary ').click(function(){
+                paginationClickFunction(true);
+            }))
+        }
+    }
+
+    /**
+     * Builds the table header based on the rowDef object passed to it. If the rowDef header.sortField property exists it adds fontawsome icons and a click event that triggers a header sort event
+     * on the <b>table</b>. This event sends two addtional parameters (apart from the event) they are: the targets data-sort-field attribute and the id attribute
+     *
+     * @param rowDef an array of column definitions
+     * @param headerTr the object it will be attached to
+     * @param sortHeaderClass the class of any headers that need sorting
+     */
+    function buildTableHeader(rowDef,headerTr,sortHeaderClass){
+        for(var i in rowDef){
+            var row = rowDef[i];
+            var th =$('<th/>').html(row.header.title)
+            if(!!row.header.sortField) th.addClass(sortHeaderClass).attr({'id':'th_'+row.header.title.replace(/ /g,"_"),'tab-index':0,'data-sort-field':row.header.sortField}).append($('<i/>').addClass('fa fa-sort pull-right')).click(function(e){
+                $(this).closest('table').trigger('header_sort',[$(this).attr('data-sort-field'),$(this).attr('id')]);
+            });
+            th.appendTo(headerTr);
+        }
+    }
+
     /**
      * Builds table rows based on a row definition, an array containing the row objects,
      * a target (usually the table body) and whether to append it to the table or empty the table contents
@@ -209,7 +261,7 @@ var Codevanilla_Utile = function(){
                     }else {
                         $(TD).on(td.action.type, function (e) {
                             td.action.func.apply(this, parseArguments($(e.currentTarget).closest('.dataRow').data(), td.action.args));
-                        }).addClass('quasiLink');
+                        })
                     }
 
                 }else{
@@ -230,37 +282,6 @@ var Codevanilla_Utile = function(){
             });
         }
 
-    }
-
-    /**
-     * Builds a table based upon a table definition object using data
-     * @param {Array} rowDef an array of column definitions
-     * @param {Array} data and array of data objects
-     * @param {Object|string} target a dom reference where the Table will reside
-     * @param {String} tableId is dom Id that you wwatn to give your table (so you can reference it later on
-     * @param {Object} [paginationObject] an pagination object {offset:1,limit,10,total_rows:200}
-     * @param {Function} [paginationClickFunction] the function that is going to run as a result of the button being clicked
-     *
-      */
-    function buildTable(rowDef,data,target,tableId,paginationObject,paginationClickFunction){
-        target = typeof target==="object"?target:$(target);
-        target.empty();
-        var headerTr = $('<tr/>');
-        var tbody = $('<tbody/>');
-        var tfooter = $('<tfoot/>');
-        var paginationtd = $('<td/>').attr({'colspan':rowDef.length}).appendTo(tfooter);
-        var table=$('<table/>').attr({id:tableId}).addClass('table table-bordered table-hover dataTable').append(
-            $('<thead/>').html(headerTr)
-        ).append(tbody).append(tfooter).appendTo(target);
-
-      for(i in rowDef){
-          var row = rowDef[i];
-          $('<th/>').html(row.header.title).appendTo(headerTr);
-      }
-        buildTableRows(rowDef,data,tbody);
-        if(paginationObject !=undefined && paginationClickFunction!=undefined){
-            buildPaginationUI(paginationtd,paginationObject,paginationClickFunction);
-        }
     }
     /**
      * Prepares the arguments for a function
@@ -293,11 +314,12 @@ var Codevanilla_Utile = function(){
      * @param {string} controllerClass one for each table on a page
      * @param {Object} orderObj consists of field (in the db), controller (the id of the TH) and direction (either DESC or ASC)
      * @param {Object} orderDefaultObj is structured as the orderObj but contains default sort properties.
-     * @TODO inergrate into buildTable
+     * @TODO inergrate into buildTable - at the moment orderObj is passed in from the invoking code
      *
      */
     function setTableOrder(controller,controllerClass,orderObj,orderDefaultObj){
         var hashedId = '#'+controller;
+        console.log(hashedId);
         if(orderObj.controller!==controller){
 
             // we are starting to order by a new column so reset every selector
@@ -333,7 +355,7 @@ var Codevanilla_Utile = function(){
      *  @param {function} clickFunction the function fired by the button
      */
     function buildPaginationUI(target,pagniationObj,clickFunction){
-        $(target).empty().html(
+        $(target).html(
             (parseInt(pagniationObj.offset)+parseInt(pagniationObj.limit) < parseInt(pagniationObj.total_rows) )?
                 $('<button/>').text("more...").addClass('btn btn-primary ').click(function(){
                     pagniationObj.offset= parseInt(pagniationObj.offset)+parseInt(pagniationObj.limit);
@@ -386,7 +408,7 @@ var Codevanilla_Utile = function(){
     return {
         'doAjax':function(service,type,address,resultTo,params,waitobjectSelector){doAjax(service,type,address,resultTo,params,waitobjectSelector)},
         'buildSelector':function(arr,label,id,idfield){return buildSelector(arr,label,id,idfield)},
-        'buildTable':function(rowDef,data,target,tableId,pagniationObj,paginationClickFunction){buildTable(rowDef,data,target,tableId,pagniationObj,paginationClickFunction)},
+        'buildTable':function(rowDef,data,target,tableId,pagniationObj,paginationClickFunction,sortHeader){buildTable(rowDef,data,target,tableId,pagniationObj,paginationClickFunction,sortHeader)},
         'buildTableRows':function(rowDef,rows,target,appendToTable){buildTableRows(rowDef,rows,target,appendToTable)},
         'formatDateAsDaysSince':function(datestring,withtitle){return formatDateAsDaysSince(datestring,withtitle)},
         'setTableOrder':function(controller,controllerClass,orderObj,orderDefaultObj){setTableOrder(controller,controllerClass,orderObj,orderDefaultObj)},

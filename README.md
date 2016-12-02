@@ -30,23 +30,24 @@ This object defines how your table with look -  The header text and its sortabil
 The row definition object is an array where each object in the array represents a  column
 ```javascript
 var rowDef=[
-{header:{title:'column 1'}}
-{header:{title:'column 2'}}
+{header:{title:'column 1'}},
+{header:{title:'column 2',sortField:'a_data_field'}},
 {header:{title:'column 3'}}
-}
+
 ]
 ```
 |column 1|column 2|column 3|
 |--------|--------|--------|
 
-Each column object will have the following properties`:
+Each column object will have the following properties:
 <h4>header</h4>
 This property defines the content and interaction of header (`<th>`) for the column.
 It contains the following:-`
-An object containing a **title** property
+An object containing a **title** property and optionally a **sortField** property.
 ```javascript
-header:{title:'column header'}
+header:{title:'column header',sortField:'a_data_field'}
 ```
+
 <h4>display</h4>
 This property defines what is shown in the table cell (`<td>`) for each column.
 An array of objects that concatenate together in the td. 

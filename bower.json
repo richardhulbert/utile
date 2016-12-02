@@ -19,12 +19,13 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests" ,
+    "tests",
     "src"
   ],
   "dependencies": {
     "jquery": "^3.1.0",
-    "bootbox":"4.4.0"
+    "bootbox": "4.4.0",
+    "components-font-awesome": "^4.7.0"
   },
   "repository": {
     "type": "git",

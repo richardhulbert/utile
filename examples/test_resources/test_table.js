@@ -1,9 +1,11 @@
 /**
  * Created by richard on 27/09/2016.
  */
+/*global bootbox*/
 jQuery((function($) {
    var utile = new Codevanilla_Utile();
     var paginationObject ={offset:0,limit:10,total_rows:200};
+    var HEADER_CLASS = 'sortHeader';
     var rowDef =[
         {
             header:{title:'name'},
@@ -14,7 +16,7 @@ jQuery((function($) {
 
         },
         {
-            header:{title:'email'},
+            header:{title:'email',sortField:'email'},
             display:[{func:makeEmailLink,args:[{type:'lookup',value:'email'}]}]
 
 
@@ -29,7 +31,7 @@ jQuery((function($) {
 
     function moreInfo(row){
         console.log(row);
-        message = row.name+"'s company catchphrase is: "+row.company.catchPhrase;
+        var message = row.name+"'s company catchphrase is: "+row.company.catchPhrase;
         bootbox.alert({title:row.name,'message':message});
     }
 
@@ -48,12 +50,15 @@ jQuery((function($) {
     }
 
     function buildTestTable(result){
-    utile.buildTable(rowDef,result,'#table_holder','uitle_table',paginationObject,pretendTopaginate);
+    utile.buildTable(rowDef,result,'#table_holder','uitle_table',paginationObject,pretendTopaginate,HEADER_CLASS);
     }
 
     function setup(){
         console.log('i\'m alive');
         buildTestTable(data);
+        $('#uitle_table').on('header_sort',function(event,field,id){
+            console.log('sort triggered',event,field,id)
+        })
     }
 return setup;
 })(jQuery));
