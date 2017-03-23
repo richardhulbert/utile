@@ -112,10 +112,10 @@ var Codevanilla_Utile = function(){
      * @param {Array} arr The array we are going to search
      * @param {string} key The key we are going to use to try to match the value
      * @param {*} val The value we are going to match against
-     * @returns {object}
+     * @returns {array}
      */
     function findRowBykey(arr,key,val){
-        var row = null;
+        var row = [];
         $.each(arr,function(index){
 
             if(arr[index][key]===val){
