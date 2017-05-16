@@ -375,7 +375,7 @@ var Codevanilla_Utile = function(){
      * @param {String} [waitobjectSelector] The selector for the wait object (spinner)
      * @param {Object} [header] Custom headers in the form {'my-custom-header:'header-value'}
      */
-    function doAjax(service,type,address,resultTo,paramObj,waitobjectSelector,header){
+    function doAjax(service,type,address,resultTo,paramObj,waitobjectSelector,header,passedArgs){
         if(typeof resultTo !=='function') console.error('You must pass a functionn to doAjax'+resultTo);
         var params =  (paramObj === undefined)?'':'?'+jQuery.param( paramObj );
         if(waitobjectSelector!== undefined) $(waitobjectSelector).addClass('active');
@@ -386,6 +386,7 @@ var Codevanilla_Utile = function(){
             header:h,
             success:function(result){
                 if(waitobjectSelector!== undefined) $(waitobjectSelector).removeClass('active');
+                if(!!passedArgs) result.passedArgs=passedArgs;
                 if(result.error===undefined){
                     resultTo(result);
                 }else{

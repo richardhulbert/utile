@@ -374,8 +374,9 @@ var Codevanilla_Utile = function(){
      * @param {Object} [paramObj]  An object of key:value pairs
      * @param {String} [waitobjectSelector] The selector for the wait object (spinner)
      * @param {Object} [header] Custom headers in the form {'my-custom-header:'header-value'}
+     * @param {array)  [passedArgs] arguments that dont get sent to the server but are needed for the results
      */
-    function doAjax(service,type,address,resultTo,paramObj,waitobjectSelector,header){
+    function doAjax(service,type,address,resultTo,paramObj,waitobjectSelector,header,passedArgs){
         if(typeof resultTo !=='function') console.error('You must pass a functionn to doAjax'+resultTo);
         var params =  (paramObj === undefined)?'':'?'+jQuery.param( paramObj );
         if(waitobjectSelector!== undefined) $(waitobjectSelector).addClass('active');
@@ -386,6 +387,7 @@ var Codevanilla_Utile = function(){
             header:h,
             success:function(result){
                 if(waitobjectSelector!== undefined) $(waitobjectSelector).removeClass('active');
+                if(!!passedArgs) result.passedArgs=passedArgs;
                 if(result.error===undefined){
                     resultTo(result);
                 }else{
