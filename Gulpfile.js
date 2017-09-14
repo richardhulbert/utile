@@ -27,3 +27,8 @@ gulp.task('build', function() {
         .pipe(gulp.dest('build'))
         .pipe(notify({ message: 'Scripts task complete' }));
 });
+
+gulp.task('quick copy to dewolfe_theme_2',function(){
+    return gulp.src('build/*.js').pipe(gulp.dest('/Users/richard/PhpstormProjects/unity_www/src/themes/dewolfe_two/bower_components/codevanilla_utile/build/')).pipe(notify({ message: 'copied to dewolfe_theme_2' }));
+})
+

@@ -374,31 +374,52 @@ var Codevanilla_Utile = function(){
      * @param {Object} [paramObj]  An object of key:value pairs
      * @param {String} [waitobjectSelector] The selector for the wait object (spinner)
      * @param {Object} [header] Custom headers in the form {'my-custom-header:'header-value'}
+     * @param {array)  [passedArgs] arguments that dont get sent to the server but are needed for the results
+     * @param {boolean} [useConsole] true to supress use of bootbox
+     * @TODO we should remove bootbox dependency here
      */
-    function doAjax(service,type,address,resultTo,paramObj,waitobjectSelector,header,passedArgs){
+    function doAjax(service,type,address,resultTo,paramObj,waitobjectSelector,header,passedArgs,useConsole){
+        if(useConsole){
+            useConsole=useConsole
+        }else{
+            useConsole=false;
+        }
         if(typeof resultTo !=='function') console.error('You must pass a functionn to doAjax'+resultTo);
-        var params =  (paramObj === undefined)?'':'?'+jQuery.param( paramObj );
         if(waitobjectSelector!== undefined) $(waitobjectSelector).addClass('active');
         var h =  (header === undefined)?{}:header;
         $.ajax({
             type:type,
-            url: service+address+params,
-            header:h,
+            url: service+address,
+            headers:h,
+            data:paramObj,
             success:function(result){
                 if(waitobjectSelector!== undefined) $(waitobjectSelector).removeClass('active');
                 if(!!passedArgs) result.passedArgs=passedArgs;
                 if(result.error===undefined){
                     resultTo(result);
                 }else{
-                    bootbox.alert(result.error);
+                    if(!useConsole){
+                       bootbox.alert(result.error);
+                   }else{
+                       console.log(result);
+                   }
                 }
             },
             error:function(result){
                 if(waitobjectSelector!== undefined) $(waitobjectSelector).removeClass('active');
                 if(!!result.responseJSON){
-                    bootbox.alert(result.responseJSON.error);
+                    if(!useConsole) {
+                        bootbox.alert(result.responseJSON.error);
+                    }else{
+                        console.log(result);
+                    }
                 }else{
-                    bootbox.alert(result.responseText);
+                    if(!useConsole) {
+                        bootbox.alert(result.responseText);
+                    }else{
+                        console.log(result);
+                        resultTo({error:'ajax error someting went wrong'});
+                    }
                 }
             }
 
@@ -407,7 +428,7 @@ var Codevanilla_Utile = function(){
 
     // offer these functions to the world
     return {
-        'doAjax':function(service,type,address,resultTo,params,waitobjectSelector){doAjax(service,type,address,resultTo,params,waitobjectSelector)},
+        'doAjax':function(service,type,address,resultTo,params,waitobjectSelector,header,passedArgs,useConsole){doAjax(service,type,address,resultTo,params,waitobjectSelector,header,passedArgs,useConsole)},
         'buildSelector':function(arr,label,id,idfield){return buildSelector(arr,label,id,idfield)},
         'buildTable':function(rowDef,data,target,tableId,pagniationObj,paginationClickFunction,sortHeader){buildTable(rowDef,data,target,tableId,pagniationObj,paginationClickFunction,sortHeader)},
         'buildTableRows':function(rowDef,rows,target,appendToTable){buildTableRows(rowDef,rows,target,appendToTable)},
