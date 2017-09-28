@@ -387,9 +387,10 @@ var Codevanilla_Utile = function(){
         if(typeof resultTo !=='function') console.error('You must pass a functionn to doAjax'+resultTo);
         if(waitobjectSelector!== undefined) $(waitobjectSelector).addClass('active');
         var h =  (header === undefined)?{}:header;
+        var params =  (paramObj === undefined && type!=='PUT')?'':'?'+jQuery.param( paramObj );
         $.ajax({
             type:type,
-            url: service+address,
+            url: service+address+params,
             headers:h,
             data:paramObj,
             success:function(result){
