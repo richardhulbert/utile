@@ -355,6 +355,8 @@ var Codevanilla_Utile = function(){
      *  @param {function} clickFunction the function fired by the button
      */
     function buildPaginationUI(target,pagniationObj,clickFunction){
+        var seriesLength = 10;// the max number of buttons
+        var numberOfPages = Math.ceil(count / pagniationObj.limit);
         $(target).html(
             (parseInt(pagniationObj.offset)+parseInt(pagniationObj.limit) < parseInt(pagniationObj.total_rows) )?
                 $('<button/>').text("more...").addClass('btn btn-primary ').click(function(){
@@ -387,12 +389,13 @@ var Codevanilla_Utile = function(){
         if(typeof resultTo !=='function') console.error('You must pass a functionn to doAjax'+resultTo);
         if(waitobjectSelector!== undefined) $(waitobjectSelector).addClass('active');
         var h =  (header === undefined)?{}:header;
-        var params =  (paramObj === undefined && type!=='PUT')?'':'?'+jQuery.param( paramObj );
+        var params =  (paramObj === undefined || type==='POST')?'':'?'+jQuery.param( paramObj );
         $.ajax({
             type:type,
             url: service+address+params,
             headers:h,
             data:paramObj,
+            crossDomain: true,
             success:function(result){
                 if(waitobjectSelector!== undefined) $(waitobjectSelector).removeClass('active');
                 if(!!passedArgs) result.passedArgs=passedArgs;

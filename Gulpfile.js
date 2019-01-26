@@ -1,15 +1,15 @@
 var gulp = require('gulp'),
-    autoprefixer = require('gulp-autoprefixer'),
+
     uglify = require('gulp-uglify'),
-    imagemin = require('gulp-imagemin'),
+
     rename = require('gulp-rename'),
     concat = require('gulp-concat'),
     notify = require('gulp-notify'),
-    cache = require('gulp-cache'),
-    livereload = require('gulp-livereload'),
-    jsdoc = require('gulp-jsdoc3'),
 
-    del = require('del');
+
+    jsdoc = require('gulp-jsdoc3')
+
+
 gulp.task('doc', function (cb) {
     //var config = require('./docs.json');
     gulp.src(['README.md', './src/**/*.js'], {read: false})
@@ -30,5 +30,8 @@ gulp.task('build', function() {
 
 gulp.task('quick copy to dewolfe_theme_2',function(){
     return gulp.src('build/*.js').pipe(gulp.dest('/Users/richard/PhpstormProjects/unity_www/src/themes/dewolfe_two/bower_components/codevanilla_utile/build/')).pipe(notify({ message: 'copied to dewolfe_theme_2' }));
+})
+gulp.task('quick copy to synctracks_theme_2',function(){
+    return gulp.src('build/*.js').pipe(gulp.dest('/Users/richard/PhpstormProjects/unity_www/src/themes/synctracks_two/bower_components/codevanilla_utile/build/')).pipe(notify({ message: 'copied to synctracks_theme_2' }));
 })
 

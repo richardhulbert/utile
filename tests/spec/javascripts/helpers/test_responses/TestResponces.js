@@ -1,4 +1,4 @@
-var TestResponses = {
+var TestComposers = {
     tags: {
         success: {
             status: 200,

@@ -351,17 +351,41 @@ var Codevanilla_Utile = function(){
      *
      *
      *  @param {string} target jquery selector to add the more... button to
-     *  @param {object} pagniationObj pagniation object consists of offset and limit
+     *  @param {object} pagniationObj pagniation object consists of offset, limit and total
      *  @param {function} clickFunction the function fired by the button
      */
-    function buildPaginationUI(target,pagniationObj,clickFunction){
-        $(target).html(
-            (parseInt(pagniationObj.offset)+parseInt(pagniationObj.limit) < parseInt(pagniationObj.total_rows) )?
-                $('<button/>').text("more...").addClass('btn btn-primary ').click(function(){
-                    pagniationObj.offset= parseInt(pagniationObj.offset)+parseInt(pagniationObj.limit);
-                    clickFunction(true);
-                }):''
-        )
+    function buildPaginationUI(target,pagniationObj,clickFunction) {
+        var seriesLength = 10;// the max number of buttons
+        var numberOfPages = Math.ceil(pagniationObj.offset / pagniationObj.limit); // the number of buttons needed
+        var currentSeries = Math.ceil(pagniationObj.offset / seriesLength) - 1;
+        if (numberOfPages > 1) {// we need to have page selector buttons
+            var pagnitation = $('<span/>').addClass('floatright').appendTo(target);
+            for (var i = 1; i <= seriesLength; i++) {
+                var a = i + (currentSeries * seriesLength);
+                if (a <= numberOfPages) {
+                    if (a !== page) {
+                        var p = $('<button/>').text(a).data({
+                            'id': a
+                        }).addClass('btn ').click(function (event) {
+                            $('#pageNumber').val($(this).data('id'));
+                            clickFunction(true);
+
+                        });
+                        $(pagnitation).append(p);
+                    } else {
+                        $(pagnitation).append($('<span/>').html(a).addClass(' btn thisPage'));
+                    }
+                }
+            }
+            /*$(target).html(
+                (parseInt(pagniationObj.offset)+parseInt(pagniationObj.limit) < parseInt(pagniationObj.total_rows) )?
+                    $('<button/>').text("more...").addClass('btn btn-primary ').click(function(){
+                        pagniationObj.offset= parseInt(pagniationObj.offset)+parseInt(pagniationObj.limit);
+                        clickFunction(true);
+
+                    }):''
+            )*/
+        }
     }
     /**
      * General function for sending and receiving via ajax. This could be a REST endpoint or a plain old ajax service
@@ -387,12 +411,13 @@ var Codevanilla_Utile = function(){
         if(typeof resultTo !=='function') console.error('You must pass a functionn to doAjax'+resultTo);
         if(waitobjectSelector!== undefined) $(waitobjectSelector).addClass('active');
         var h =  (header === undefined)?{}:header;
-        var params =  (paramObj === undefined && type!=='PUT')?'':'?'+jQuery.param( paramObj );
+        var params =  (paramObj === undefined || type==='POST')?'':'?'+jQuery.param( paramObj );
         $.ajax({
             type:type,
             url: service+address+params,
             headers:h,
             data:paramObj,
+            crossDomain: true,
             success:function(result){
                 if(waitobjectSelector!== undefined) $(waitobjectSelector).removeClass('active');
                 if(!!passedArgs) result.passedArgs=passedArgs;
