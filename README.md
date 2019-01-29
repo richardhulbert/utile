@@ -9,6 +9,7 @@ Currently it contains the following methods:
 * **buildSelector** - builds a select box from data (an array of objects containing records) 
 * **buildTable** - builds a table using data (an array of objects containing records) that is shaped by a [configuration object](#rowdef)
 * **buildTableRows** - builds table rows using data and a [configuration object](#rowdef)
+* **pagniationUi** -  builds a pagination set based on a [pagnination object](#pag_obj)
 * **nl2br** -  converts the line breaks into br tags
 * **br2nl** - converts the br tags into line breaks
 * **indRowBykey** - returns a row from an array of rows given a filed key and a value for that key
@@ -85,3 +86,9 @@ args - the arguments passed to the function
 <h4>ClassName</h4>
 This defines any classes you want to apply to a td
 
+
+<a name="pag_obj"><h3>Pagination Object</h3></a>
+This object this the representation of the pagination state it contains the offset, limit and total rows
+```javascript
+{offset:0,limit:10,total_rows:1232}
+```

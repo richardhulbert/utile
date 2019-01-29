@@ -10,7 +10,7 @@
  *
  *  @constructor
  */
-var Codevanilla_Utile = function(){
+var Codevanilla_Utile = function () {
 
 
     /**
@@ -24,20 +24,20 @@ var Codevanilla_Utile = function(){
      * @param {boolean} [status] Allows us to set the status of a button. True
      * @param {string} [label] Allows you to change the text of the button
      */
-    function toggleIcon(button,status,label){
+    function toggleIcon(button, status, label) {
         // is this a fontawsome button or a glyphicon button
         /* jshint expr: true */
-        button = typeof button==="object"?button:$(button);
-        var fa = $(button).find('i').length===1;
-        if(status==null) status = $(button).hasClass('toggled')===false;
-        if(status){
-            fa ? $(button).addClass('toggled').children('i.fa').removeClass($(button).attr('data-icon-2')).addClass($(button).attr('data-icon-1')):$(button).removeClass('toggled').children('span.glyphicon').removeClass($(button).attr('data-icon-2')).addClass($(button).attr('data-icon-1'));
+        button = typeof button === "object" ? button : $(button);
+        var fa = $(button).find('i').length === 1;
+        if (status == null) status = $(button).hasClass('toggled') === false;
+        if (status) {
+            fa ? $(button).addClass('toggled').children('i.fa').removeClass($(button).attr('data-icon-2')).addClass($(button).attr('data-icon-1')) : $(button).removeClass('toggled').children('span.glyphicon').removeClass($(button).attr('data-icon-2')).addClass($(button).attr('data-icon-1'));
 
-        }else{
+        } else {
 
-            fa ? $(button).removeClass('toggled').children('i.fa').removeClass($(button).attr('data-icon-1')).addClass($(button).attr('data-icon-2')): $(button).addClass('toggled').children('span.glyphicon').removeClass($(button).attr('data-icon-1')).addClass($(button).attr('data-icon-2'));
+            fa ? $(button).removeClass('toggled').children('i.fa').removeClass($(button).attr('data-icon-1')).addClass($(button).attr('data-icon-2')) : $(button).addClass('toggled').children('span.glyphicon').removeClass($(button).attr('data-icon-1')).addClass($(button).attr('data-icon-2'));
         }
-        if(!!label)  $(button).html(fa ?$(button).find('i')[0]:$(button).find('span')[0]).append(label);
+        if (!!label) $(button).html(fa ? $(button).find('i')[0] : $(button).find('span')[0]).append(label);
         return status;
     }
 
@@ -49,30 +49,30 @@ var Codevanilla_Utile = function(){
      * @param {boolean} [withtitle] If you want
      * @returns {*} Either string with the pretty date or a span with the same and a title attribute that has value of passed string
      */
-    function formatDateAsDaysSince(datestring,withtitle){
-        if(datestring===null||datestring==='') return ' - ';
-        var oneMinute = 60*1000;
-        var oneHour= oneMinute*60;
-        var oneDay = 24*oneHour; // hours*minutes*seconds*milliseconds
-        var oneWeek = 7*oneDay; // hours*minutes*seconds*milliseconds
-        var oneYear = 52*oneWeek; // hours*minutes*seconds*milliseconds
+    function formatDateAsDaysSince(datestring, withtitle) {
+        if (datestring === null || datestring === '') return ' - ';
+        var oneMinute = 60 * 1000;
+        var oneHour = oneMinute * 60;
+        var oneDay = 24 * oneHour; // hours*minutes*seconds*milliseconds
+        var oneWeek = 7 * oneDay; // hours*minutes*seconds*milliseconds
+        var oneYear = 52 * oneWeek; // hours*minutes*seconds*milliseconds
         var firstDate = new Date(datestring);
         var secondDate = new Date();// now
-        var in_the_past= firstDate.getTime() - secondDate.getTime() < 0;
-        var diffMinute = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneMinute)));
-        var diffHours = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneMinute)));
-        var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
-        var diffweeks= Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneWeek)));
-        var diffyear= Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneYear)));
-        if(diffMinute<3) return (!!withtitle)?addTitleAttr('Just now',datestring):'Just now';
-        if(diffMinute<60) return (!!withtitle)?addTitleAttr(diffMinute+ (in_the_past?' Minutes ago':' Minutes left'),datestring):diffMinute+(in_the_past?' Minutes ago':' Minutes left');
-        if(diffHours<6) return (!!withtitle)?addTitleAttr(diffHours+ (in_the_past?' Hours ago':' Hours left'),datestring):diffHours+(in_the_past?' Hours ago':' Hours left');
-        if(diffDays===0) return (!!withtitle)?addTitleAttr('Today',datestring):'Today';
-        if(diffDays===1) return (!!withtitle)?addTitleAttr(in_the_past?'Yesterday':'Tomorrow',datestring):in_the_past?'Yesterday':'Tomorrow';
-        if(diffDays<14) return  (!!withtitle)?addTitleAttr(diffDays+ (in_the_past?' Days ago':' Days left'),datestring):diffDays+(in_the_past?' Days ago':' Days left');
-        if(diffweeks>1 && diffweeks<52) return  (!!withtitle)?addTitleAttr(diffweeks+ (in_the_past?' Weeks ago':' Weeks left'),datestring):diffweeks+(in_the_past?' Weeks ago':' Weeks left');
-        if(diffyear>1) return  (!!withtitle)?addTitleAttr(diffyear+(in_the_past?' Years ago':' Years left'),datestring):diffyear+(in_the_past?' Years ago':' Years left');
-        if(diffyear===1) return  (!!withtitle)?addTitleAttr(diffyear+(in_the_past?' Year ago':' Year left'),datestring):diffyear+(in_the_past?' Year ago':' Year left');
+        var in_the_past = firstDate.getTime() - secondDate.getTime() < 0;
+        var diffMinute = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneMinute)));
+        var diffHours = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneMinute)));
+        var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay)));
+        var diffweeks = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneWeek)));
+        var diffyear = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneYear)));
+        if (diffMinute < 3) return (!!withtitle) ? addTitleAttr('Just now', datestring) : 'Just now';
+        if (diffMinute < 60) return (!!withtitle) ? addTitleAttr(diffMinute + (in_the_past ? ' Minutes ago' : ' Minutes left'), datestring) : diffMinute + (in_the_past ? ' Minutes ago' : ' Minutes left');
+        if (diffHours < 6) return (!!withtitle) ? addTitleAttr(diffHours + (in_the_past ? ' Hours ago' : ' Hours left'), datestring) : diffHours + (in_the_past ? ' Hours ago' : ' Hours left');
+        if (diffDays === 0) return (!!withtitle) ? addTitleAttr('Today', datestring) : 'Today';
+        if (diffDays === 1) return (!!withtitle) ? addTitleAttr(in_the_past ? 'Yesterday' : 'Tomorrow', datestring) : in_the_past ? 'Yesterday' : 'Tomorrow';
+        if (diffDays < 14) return (!!withtitle) ? addTitleAttr(diffDays + (in_the_past ? ' Days ago' : ' Days left'), datestring) : diffDays + (in_the_past ? ' Days ago' : ' Days left');
+        if (diffweeks > 1 && diffweeks < 52) return (!!withtitle) ? addTitleAttr(diffweeks + (in_the_past ? ' Weeks ago' : ' Weeks left'), datestring) : diffweeks + (in_the_past ? ' Weeks ago' : ' Weeks left');
+        if (diffyear > 1) return (!!withtitle) ? addTitleAttr(diffyear + (in_the_past ? ' Years ago' : ' Years left'), datestring) : diffyear + (in_the_past ? ' Years ago' : ' Years left');
+        if (diffyear === 1) return (!!withtitle) ? addTitleAttr(diffyear + (in_the_past ? ' Year ago' : ' Year left'), datestring) : diffyear + (in_the_past ? ' Year ago' : ' Year left');
         return datestring;
 
     }
@@ -85,27 +85,34 @@ var Codevanilla_Utile = function(){
      * @param {string} title  The value of title attribute
      * @returns {*|jQuery} A span
      */
-    function addTitleAttr(string,title){
-        return $('<span/>').attr({'data-toggle':"tooltip", 'data-placement':"auto left",'title':title}).text(string);
+    function addTitleAttr(string, title) {
+        return $('<span/>').attr({
+            'data-toggle': "tooltip",
+            'data-placement': "auto left",
+            'title': title
+        }).text(string);
     }
+
     /**
      * Converts the line breaks in a string into br tags
      *
      * @param {string} str the sting that you want to convert
      * @retun {string} the converted string
      */
-    function nl2br(str){
+    function nl2br(str) {
         return str.replace(/(?:\r\n|\r|\n)/g, '<br />');
     }
+
     /**
      * Converts the br tags in a string into line breaks
      *
      * @param {string} html the sting that you want to convert
      * @retun {string} the converted string
      */
-    function br2nl(html){
+    function br2nl(html) {
         return html.replace(/<br\s*[\/]?>/gi, "\n");
     }
+
     /**
      * Returns a row from an array of rows given a field key and a value for that key
      *
@@ -114,16 +121,17 @@ var Codevanilla_Utile = function(){
      * @param {*} val The value we are going to match against
      * @returns {array}
      */
-    function findRowBykey(arr,key,val){
+    function findRowBykey(arr, key, val) {
         var row = [];
-        $.each(arr,function(index){
+        $.each(arr, function (index) {
 
-            if(arr[index][key]===val){
-                row= arr[index];
+            if (arr[index][key] === val) {
+                row = arr[index];
             }
         });
         return row;
     }
+
     /**
      * <p>Takes an array of objects and outputs an array of values for a key in each object</p>
      * @example extractValuesByKey([{firstname:'Alice',lastname:'Bear'},{firstname:'Steve',lastname:'Farr'}] , 'firstname')
@@ -140,12 +148,12 @@ var Codevanilla_Utile = function(){
      * @returns {Array} straight array of values
      *
      */
-    function extractValuesByKey(arr,key){
-        var f=[];
-        $.each(arr,function(index,value){
+    function extractValuesByKey(arr, key) {
+        var f = [];
+        $.each(arr, function (index, value) {
             //jshint unused:false
             /*jshint evil:true */
-            f.push(eval('value.'+key));
+            f.push(eval('value.' + key));
         });
         return f;
     }
@@ -157,15 +165,15 @@ var Codevanilla_Utile = function(){
      * @param {int} [id] to match ( the initial value)
      * @param {string} [idfield] The field name for when the record set has a nonstandard id
      */
-    function buildSelector(arr,label,id,idfield){
+    function buildSelector(arr, label, id, idfield) {
         var sel = $('<select />').addClass('form-control');
         for (var i = 0; i < arr.length; i++) {
             var row = arr[i];
-            $('<option/>').attr('value',!!idfield?row[idfield]:row.id).text(row[label]).appendTo(sel);
+            $('<option/>').attr('value', !!idfield ? row[idfield] : row.id).text(row[label]).appendTo(sel);
         }
-        if(id!==undefined){
+        if (id !== undefined) {
             return $(sel).val(id);
-        }else{
+        } else {
             return sel;
         }
     }
@@ -181,25 +189,78 @@ var Codevanilla_Utile = function(){
      * @param {Function} [paginationClickFunction] the function that is going to run as a result of the button being clicked
      *
      */
-    function buildTable(rowDef,data,target,tableId,paginationObject,paginationClickFunction,sortHeaderClass){
-        target = typeof target==="object"?target:$(target);
+    function buildTable(rowDef, data, target, tableId, paginationObject, paginationClickFunction, sortHeaderClass,pagniationSeriesLength) {
+        target = typeof target === "object" ? target : $(target);
         target.empty();
-        var paginationTdId = Math.floor((Math.random() * 10000) + 1)+'_paginationTdId';
+        var paginationTdId = Math.floor((Math.random() * 10000) + 1) + '_paginationTdId';
         var headerTr = $('<tr/>');
         var tbody = $('<tbody/>');
         var tfooter = $('<tfoot/>');
-        var paginationtd = $('<td/>').attr({'colspan':rowDef.length,id:paginationTdId}).appendTo(tfooter);
-        var table=$('<table/>').attr({id:tableId}).addClass('table table-bordered table-hover dataTable').append(
+
+        var table = $('<table/>').attr({id: tableId}).addClass('table table-bordered table-hover dataTable').append(
             $('<thead/>').html(headerTr)
         ).append(tbody).append(tfooter).appendTo(target);
 
-        buildTableHeader(rowDef,headerTr,sortHeaderClass);
-        buildTableRows(rowDef,data,tbody);
-        if(paginationObject !=undefined && paginationClickFunction!=undefined&& (parseInt(paginationObject.offset)+parseInt(paginationObject.limit) < parseInt(paginationObject.total_rows) )){
-            paginationtd.html($('<button/>').text("more...").addClass('btn btn-primary ').click(function(){
-                paginationClickFunction(true);
-            }))
+        buildTableHeader(rowDef, headerTr, sortHeaderClass);
+        buildTableRows(rowDef, data, tbody);
+        if (!!paginationObject && !!paginationClickFunction && parseInt(paginationObject.limit) < parseInt(paginationObject.total_rows)) {
+            var paginationtd = $('<td/>').attr({'colspan': rowDef.length}).appendTo(tfooter).append(
+                pagniationUi(paginationObject, paginationClickFunction,pagniationSeriesLength)
+            );
+
         }
+    }
+
+    /**
+     *This builds and returns a pagination UI object based on the paginationObject (which contains the offest, limit and total rows for the record set concerned)
+     *
+     * @param {Object} paginationObject like: {offset:0,limit:5,total_rows:20}
+     * @param {Function} paginationClickFunction This funtion will receive an updated paginationObject as its argument
+     * @param {integer} [seriesLength] The maximum number of pages that are visible in the pagination set (default is 10}
+     * @returns {*} jquery dom fragment containing the pagination ui
+     */
+    function pagniationUi(paginationObject, paginationClickFunction,seriesLength) {
+        var seriesLength = !!seriesLength?seriesLength:10;
+        var resultsPerPage = paginationObject.limit;// the number of results per page.
+        var numberOfPages = Math.ceil(paginationObject.total_rows / resultsPerPage); // the number of buttons needed
+        var currentPage = Math.ceil(paginationObject.offset / resultsPerPage) + 1;
+        var currentSeries = Math.ceil(currentPage / seriesLength) - 1;
+        if (numberOfPages > 1) {// we need to have page selector buttons
+            var pagination = $('<div/>').addClass(' btn-group pull-right ');
+            for (var i = 1; i <= seriesLength; i++) {
+                var a = i + (currentSeries * seriesLength);
+                if (a <= numberOfPages) {
+                    if (a !== currentPage) {
+                        var p = $('<button/>').text(a).data({
+                            'currentPage': a
+                        }).addClass('btn btn-outline-dark ').click(function (event) {
+                            //caluculate new offset and pass back new pagniation object
+                            paginationObject.offset =($(this).data().currentPage -1 )* resultsPerPage;
+                            paginationClickFunction(paginationObject);
+                        }).appendTo(pagination);
+                    } else {
+                        pagination.append($('<span/>').html(a).addClass(' btn btn-dark'))
+                    }
+                }
+            }
+            if (currentPage > 1) {
+                var prev = $('<button/>').addClass('btn btn-outline-dark').text('<').data({'currentPage': currentPage}).click(function (event) {
+                    paginationObject.offset = ($(this).data().currentPage - 1) * resultsPerPage - resultsPerPage;
+                    paginationClickFunction(paginationObject);
+                }).prependTo(pagination);
+            }
+            // now let's do the next
+            if (currentPage < numberOfPages) {
+                var prev = $('<button/>').addClass('btn btn-outline-dark').text('>').data({'currentPage': currentPage}).click(function (event) {
+                    paginationObject.offset = (currentPage + 1) * resultsPerPage - resultsPerPage;
+                    paginationClickFunction(paginationObject);
+                }).appendTo(pagination);
+            }
+            return pagination;
+        } else {
+            return '';
+        }
+
     }
 
     /**
@@ -210,12 +271,16 @@ var Codevanilla_Utile = function(){
      * @param headerTr the object it will be attached to
      * @param sortHeaderClass the class of any headers that need sorting
      */
-    function buildTableHeader(rowDef,headerTr,sortHeaderClass){
-        for(var i in rowDef){
+    function buildTableHeader(rowDef, headerTr, sortHeaderClass) {
+        for (var i in rowDef) {
             var row = rowDef[i];
-            var th =$('<th/>').html(row.header.title)
-            if(!!row.header.sortField) th.addClass(sortHeaderClass).attr({'id':'th_'+row.header.title.replace(/ /g,"_"),'tab-index':0,'data-sort-field':row.header.sortField}).append($('<i/>').addClass('fa fa-sort pull-right')).click(function(e){
-                $(this).closest('table').trigger('header_sort',[$(this).attr('data-sort-field'),$(this).attr('id')]);
+            var th = $('<th/>').html(row.header.title)
+            if (!!row.header.sortField) th.addClass(sortHeaderClass).attr({
+                'id': 'th_' + row.header.title.replace(/ /g, "_"),
+                'tab-index': 0,
+                'data-sort-field': row.header.sortField
+            }).append($('<i/>').addClass('fa fa-sort pull-right')).click(function (e) {
+                $(this).closest('table').trigger('header_sort', [$(this).attr('data-sort-field'), $(this).attr('id')]);
             });
             th.appendTo(headerTr);
         }
@@ -230,50 +295,56 @@ var Codevanilla_Utile = function(){
      * @param {string} target where the returned rows are appended to
      * @param {boolean} [appendToTable] whether to clear the table (true) or not
      */
-    function buildTableRows(rowDef,rows,target,appendToTable){
+    function buildTableRows(rowDef, rows, target, appendToTable) {
         /* jshint loopfunc:true */
-        if(appendToTable===undefined||appendToTable===true){ target.empty();}
-        for(var i=0;i<rows.length;i++){
-            var row= rows[i];
+        if (appendToTable === undefined || appendToTable === true) {
+            target.empty();
+        }
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
             // lets create the TR tag and add the data to it
-            var tr= $('<tr/>').data(row).addClass('dataRow').appendTo(target);
+            var tr = $('<tr/>').data(row).addClass('dataRow').appendTo(target);
             // now lets look at the definition of the TDs and create and add them to the TR
-            $.each(rowDef,function(index,td){
+            $.each(rowDef, function (index, td) {
                 // lets now create the text for our td
                 var TD = $('<td/>').appendTo(tr);
-                var txt ='';
-                $.each(td.display,function(key,val){
-                    if(!!val.func) {
-                        $(TD).append(val.func.apply(this,parseArguments(row,val.args)));
+                var txt = '';
+                $.each(td.display, function (key, val) {
+                    if (!!val.func) {
+                        $(TD).append(val.func.apply(this, parseArguments(row, val.args)));
                     }
-                    if(!!val.row) {$(TD).append(row[val.row]);}
-                    if(!!val.literal){$(TD).append(val.literal);}
+                    if (!!val.row) {
+                        $(TD).append(row[val.row]);
+                    }
+                    if (!!val.literal) {
+                        $(TD).append(val.literal);
+                    }
 
                 });
                 // is there an action that we want such as a click event?
-                if(td.action!==undefined){
-                    if(Array.isArray(td.action)){
-                        $.each(td.action,function(key,val){
+                if (td.action !== undefined) {
+                    if (Array.isArray(td.action)) {
+                        $.each(td.action, function (key, val) {
                             $(TD).on(val.type, function (e) {
                                 val.func.apply(this, parseArguments($(e.currentTarget).closest('.dataRow').data(), val.args));
                             })
                         })
-                    }else {
+                    } else {
                         $(TD).on(td.action.type, function (e) {
                             td.action.func.apply(this, parseArguments($(e.currentTarget).closest('.dataRow').data(), td.action.args));
                         })
                     }
 
-                }else{
-                    if(txt!=='') TD.html(txt);
+                } else {
+                    if (txt !== '') TD.html(txt);
                 }
                 // ok what about adding a class to the TD
-                if(td.className!==undefined){
+                if (td.className !== undefined) {
                     // we can pass a literal string or a function based upon the data in the row
-                    if(!!td.className.func){
+                    if (!!td.className.func) {
                         //ok this is a function so lets add the class based on the function
-                        TD.addClass(td.className.func.apply(this,parseArguments(row,td.className.args)));
-                    }else{
+                        TD.addClass(td.className.func.apply(this, parseArguments(row, td.className.args)));
+                    } else {
                         // just add the literal string
                         TD.addClass(td.className.literal);
                     }
@@ -283,6 +354,7 @@ var Codevanilla_Utile = function(){
         }
 
     }
+
     /**
      * Prepares the arguments for a function
      * Argument objects with a type of 'lookup' will return the value found in the row object (if there is one)
@@ -294,13 +366,16 @@ var Codevanilla_Utile = function(){
      */
     function parseArguments(row, fields) {
         var args = [];
-        $.each(fields, function(index, value) {
-            switch(value.type){
-                case 'lookup': args.push(row[value.value]);
+        $.each(fields, function (index, value) {
+            switch (value.type) {
+                case 'lookup':
+                    args.push(row[value.value]);
                     break;
-                case 'row':args.push(row);
+                case 'row':
+                    args.push(row);
                     break;
-                default:args.push(value.value);
+                default:
+                    args.push(value.value);
             }
         });
         return args;
@@ -317,46 +392,45 @@ var Codevanilla_Utile = function(){
      * @TODO inergrate into buildTable - at the moment orderObj is passed in from the invoking code
      *
      */
-    function setTableOrder(controller,controllerClass,orderObj,orderDefaultObj){
-        var hashedId = '#'+controller;
+    function setTableOrder(controller, controllerClass, orderObj, orderDefaultObj) {
+        var hashedId = '#' + controller;
         console.log(hashedId);
-        if(orderObj.controller!==controller){
+        if (orderObj.controller !== controller) {
 
             // we are starting to order by a new column so reset every selector
             $(controllerClass).removeClass('active desc asc');
-            $(controllerClass+' i').removeClass('fa-sort-desc fa-sort-asc').addClass('fa-sort');
+            $(controllerClass + ' i').removeClass('fa-sort-desc fa-sort-asc').addClass('fa-sort');
             $(hashedId).addClass('active desc');
             $(hashedId).find('i').removeClass('fa-sort').addClass('fa-sort-desc');
-            orderObj.controller=controller;
-            orderObj.field=$(hashedId).attr('data-sort-field');
-            orderObj.direction='DESC';
-        }else{
-            if(orderObj.direction==='DESC'){
+            orderObj.controller = controller;
+            orderObj.field = $(hashedId).attr('data-sort-field');
+            orderObj.direction = 'DESC';
+        } else {
+            if (orderObj.direction === 'DESC') {
                 $(hashedId).removeClass('desc').addClass('asc');
                 $(hashedId).find('i').removeClass('fa-sort-desc').addClass('fa-sort-asc');
-                orderObj.direction='ASC';
-            }else if(orderObj.direction==='ASC') {
+                orderObj.direction = 'ASC';
+            } else if (orderObj.direction === 'ASC') {
                 $(controllerClass).removeClass('active desc asc');
-                $(controllerClass+' i').removeClass('fa-sort-desc fa-sort-asc').addClass('fa-sort');
-                orderObj.field=orderDefaultObj.field;
-                orderObj.direction=orderDefaultObj.direction;
-                orderObj.controller=null;
+                $(controllerClass + ' i').removeClass('fa-sort-desc fa-sort-asc').addClass('fa-sort');
+                orderObj.field = orderDefaultObj.field;
+                orderObj.direction = orderDefaultObj.direction;
+                orderObj.controller = null;
             }
         }
 
     }
+
     /**
      * Builds a pagination button (if required), that updates the passed pagination object.offset and
      * inserts it into the DOM attaching it to the target
-     *
+     * @deprecated Use pagniationUi which gives a propper pagination strip.
      *
      *  @param {string} target jquery selector to add the more... button to
      *  @param {object} pagniationObj pagniation object consists of offset and limit
      *  @param {function} clickFunction the function fired by the button
      */
     function buildPaginationUI(target,pagniationObj,clickFunction){
-        var seriesLength = 10;// the max number of buttons
-        var numberOfPages = Math.ceil(count / pagniationObj.limit);
         $(target).html(
             (parseInt(pagniationObj.offset)+parseInt(pagniationObj.limit) < parseInt(pagniationObj.total_rows) )?
                 $('<button/>').text("more...").addClass('btn btn-primary ').click(function(){
@@ -365,6 +439,7 @@ var Codevanilla_Utile = function(){
                 }):''
         )
     }
+
     /**
      * General function for sending and receiving via ajax. This could be a REST endpoint or a plain old ajax service
      * relies on bootbox to show errors
@@ -380,49 +455,49 @@ var Codevanilla_Utile = function(){
      * @param {boolean} [useConsole] true to supress use of bootbox
      * @TODO we should remove bootbox dependency here
      */
-    function doAjax(service,type,address,resultTo,paramObj,waitobjectSelector,header,passedArgs,useConsole){
-        if(useConsole){
-            useConsole=useConsole
-        }else{
-            useConsole=false;
+    function doAjax(service, type, address, resultTo, paramObj, waitobjectSelector, header, passedArgs, useConsole) {
+        if (useConsole) {
+            useConsole = useConsole
+        } else {
+            useConsole = false;
         }
-        if(typeof resultTo !=='function') console.error('You must pass a functionn to doAjax'+resultTo);
-        if(waitobjectSelector!== undefined) $(waitobjectSelector).addClass('active');
-        var h =  (header === undefined)?{}:header;
-        var params =  (paramObj === undefined || type==='POST')?'':'?'+jQuery.param( paramObj );
+        if (typeof resultTo !== 'function') console.error('You must pass a functionn to doAjax' + resultTo);
+        if (waitobjectSelector !== undefined) $(waitobjectSelector).addClass('active');
+        var h = (header === undefined) ? {} : header;
+        var params = (paramObj === undefined || type === 'POST') ? '' : '?' + jQuery.param(paramObj);
         $.ajax({
-            type:type,
-            url: service+address+params,
-            headers:h,
-            data:paramObj,
+            type: type,
+            url: service + address + params,
+            headers: h,
+            data: paramObj,
             crossDomain: true,
-            success:function(result){
-                if(waitobjectSelector!== undefined) $(waitobjectSelector).removeClass('active');
-                if(!!passedArgs) result.passedArgs=passedArgs;
-                if(result.error===undefined){
+            success: function (result) {
+                if (waitobjectSelector !== undefined) $(waitobjectSelector).removeClass('active');
+                if (!!passedArgs) result.passedArgs = passedArgs;
+                if (result.error === undefined) {
                     resultTo(result);
-                }else{
-                    if(!useConsole){
-                       bootbox.alert(result.error);
-                   }else{
-                       console.log(result);
-                   }
-                }
-            },
-            error:function(result){
-                if(waitobjectSelector!== undefined) $(waitobjectSelector).removeClass('active');
-                if(!!result.responseJSON){
-                    if(!useConsole) {
-                        bootbox.alert(result.responseJSON.error);
-                    }else{
+                } else {
+                    if (!useConsole) {
+                        bootbox.alert(result.error);
+                    } else {
                         console.log(result);
                     }
-                }else{
-                    if(!useConsole) {
-                        bootbox.alert(result.responseText);
-                    }else{
+                }
+            },
+            error: function (result) {
+                if (waitobjectSelector !== undefined) $(waitobjectSelector).removeClass('active');
+                if (!!result.responseJSON) {
+                    if (!useConsole) {
+                        bootbox.alert(result.responseJSON.error);
+                    } else {
                         console.log(result);
-                        resultTo({error:'ajax error someting went wrong'});
+                    }
+                } else {
+                    if (!useConsole) {
+                        bootbox.alert(result.responseText);
+                    } else {
+                        console.log(result);
+                        resultTo({error: 'ajax error someting went wrong'});
                     }
                 }
             }
@@ -432,21 +507,46 @@ var Codevanilla_Utile = function(){
 
     // offer these functions to the world
     return {
-        'doAjax':function(service,type,address,resultTo,params,waitobjectSelector,header,passedArgs,useConsole){doAjax(service,type,address,resultTo,params,waitobjectSelector,header,passedArgs,useConsole)},
-        'buildSelector':function(arr,label,id,idfield){return buildSelector(arr,label,id,idfield)},
-        'buildTable':function(rowDef,data,target,tableId,pagniationObj,paginationClickFunction,sortHeader){buildTable(rowDef,data,target,tableId,pagniationObj,paginationClickFunction,sortHeader)},
-        'buildTableRows':function(rowDef,rows,target,appendToTable){buildTableRows(rowDef,rows,target,appendToTable)},
-        'formatDateAsDaysSince':function(datestring,withtitle){return formatDateAsDaysSince(datestring,withtitle)},
-        'setTableOrder':function(controller,controllerClass,orderObj,orderDefaultObj){setTableOrder(controller,controllerClass,orderObj,orderDefaultObj)},
-        'buildPaginationUI':function(target,pagniationObj,clickFunction){buildPaginationUI(target,pagniationObj,clickFunction)},
-        'toggleIcon':function(button,status,label){toggleIcon(button,status,label)},
-        'nl2br':function(str){ return nl2br(str) },
-        'br2nl':function(str){ return br2nl(str) },
-        'findRowBykey':function(arr,key,val){ return findRowBykey(arr,key,val)},
-        'extractValuesByKey':function(arr,key){return extractValuesByKey(arr,key)},
-        'addTitleAttr':function(string,title){ return addTitleAttr(string,title)}
+        'doAjax': function (service, type, address, resultTo, params, waitobjectSelector, header, passedArgs, useConsole) {
+            doAjax(service, type, address, resultTo, params, waitobjectSelector, header, passedArgs, useConsole)
+        },
+        'buildSelector': function (arr, label, id, idfield) {
+            return buildSelector(arr, label, id, idfield)
+        },
+        'buildTable': function (rowDef, data, target, tableId, pagniationObj, paginationClickFunction, sortHeader,pagniationSeriesLength) {
+            buildTable(rowDef, data, target, tableId, pagniationObj, paginationClickFunction, sortHeader,pagniationSeriesLength)
+        },
+        'buildTableRows': function (rowDef, rows, target, appendToTable) {
+            buildTableRows(rowDef, rows, target, appendToTable)
+        },
+        'formatDateAsDaysSince': function (datestring, withtitle) {
+            return formatDateAsDaysSince(datestring, withtitle)
+        },
+        'setTableOrder': function (controller, controllerClass, orderObj, orderDefaultObj) {
+            setTableOrder(controller, controllerClass, orderObj, orderDefaultObj)
+        },
+        'buildPaginationUI': function (target, pagniationObj, clickFunction) {
+            buildPaginationUI(target, pagniationObj, clickFunction)
+        },
+        'toggleIcon': function (button, status, label) {
+            toggleIcon(button, status, label)
+        },
+        'nl2br': function (str) {
+            return nl2br(str)
+        },
+        'br2nl': function (str) {
+            return br2nl(str)
+        },
+        'findRowBykey': function (arr, key, val) {
+            return findRowBykey(arr, key, val)
+        },
+        'extractValuesByKey': function (arr, key) {
+            return extractValuesByKey(arr, key)
+        },
+        'addTitleAttr': function (string, title) {
+            return addTitleAttr(string, title)
+        }
     };
-
 };
 
 

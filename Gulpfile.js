@@ -30,8 +30,11 @@ gulp.task('build', function() {
 
 gulp.task('quick copy to dewolfe_theme_2',function(){
     return gulp.src('build/*.js').pipe(gulp.dest('/Users/richard/PhpstormProjects/unity_www/src/themes/dewolfe_two/bower_components/codevanilla_utile/build/')).pipe(notify({ message: 'copied to dewolfe_theme_2' }));
-})
+});
+gulp.task('quick copy to admin_area',function(){
+    return gulp.src('build/*.js').pipe(gulp.dest('/Users/richard/PhpstormProjects/unity_secure/src/admin_area/bower_components/codevanilla_utile/build/')).pipe(notify({ message: 'copied to admin_area' }));
+});
 gulp.task('quick copy to synctracks_theme_2',function(){
     return gulp.src('build/*.js').pipe(gulp.dest('/Users/richard/PhpstormProjects/unity_www/src/themes/synctracks_two/bower_components/codevanilla_utile/build/')).pipe(notify({ message: 'copied to synctracks_theme_2' }));
-})
+});
 

@@ -229,4 +229,11 @@ var data=[
             "bs": "target end-to-end models"
         }
     }
-]
+];
+var total_rows = data.length;
+function getData(Origdata,offset,limit){
+    var data = jQuery.extend(true, [], Origdata);
+    return {rows:data.splice(offset,limit),pagination:{offset:offset,limit:limit,'total_rows':total_rows}};
+
+
+}

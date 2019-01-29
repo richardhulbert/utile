@@ -2,9 +2,9 @@
  * Created by richard on 27/09/2016.
  */
 /*global bootbox*/
+
 jQuery((function($) {
-   var utile = new Codevanilla_Utile();
-    var paginationObject ={offset:0,limit:10,total_rows:200};
+    var utile = new Codevanilla_Utile();
     var HEADER_CLASS = 'sortHeader';
     var rowDef =[
         {
@@ -31,8 +31,6 @@ jQuery((function($) {
 
     function moreInfo(row){
         console.log(row);
-        var message = row.name+"'s company catchphrase is: "+row.company.catchPhrase;
-        bootbox.alert({title:row.name,'message':message});
     }
 
     function makeEmailLink(emailStr){
@@ -44,20 +42,22 @@ jQuery((function($) {
 
     }
 
-    function pretendTopaginate(){
-        var message  = "Generally The button will increment the offset in the paginationObject to maintain the state of the pagination on the client" ;
-        bootbox.alert({title:'pretend pagination','message':message});
+    function pretendTopaginate(po){
+        buildTestTable(getData(data,po.offset,po.limit));
     }
 
     function buildTestTable(result){
-    utile.buildTable(rowDef,result,'#table_holder','uitle_table',paginationObject,pretendTopaginate,HEADER_CLASS);
+
+    utile.buildTable(rowDef,result.rows,'#table_holder','uitle_table',result.pagination, pretendTopaginate,HEADER_CLASS,parseInt($('#series_length').val()));
     }
 
     function setup(){
-        console.log('i\'m alive');
-        buildTestTable(data);
+        buildTestTable(getData(data,0,parseInt($('#num_of_rows').val())));
         $('#uitle_table').on('header_sort',function(event,field,id){
             console.log('sort triggered',event,field,id)
+        })
+        $('#refresh').click(function(){
+            buildTestTable(getData(data,0,parseInt($('#num_of_rows').val())));
         })
     }
 return setup;

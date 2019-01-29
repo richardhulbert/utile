@@ -3,23 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Test for Utile</title>
+    <title>Test for Utile </title>
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../bower_components/bootbox/bootbox.js"></script>
-    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" rel="stylesheet">
     <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.css">
     <script src="test_resources/data.js"></script>
     <script src="../src/utile.js"></script>
     <script src="test_resources/test_table.js"></script>
     <style>
-        td.specialTd{
+        td.specialTd {
             font-weight: bold;
-            color:navy;
+            color: navy;
         }
-        td.dotCom{
+
+        td.dotCom {
             background: #e4c288;
+        }
+
+        fieldset{
+            padding:6px;
+            background: lightcyan;
         }
     </style>
 
@@ -28,9 +34,20 @@
 <body>
 
 <div id="container">
-    <div class="col-md-12">
-        <h1>Testing Utile</h1>
 
+    <div class="col-md-6 col-md-offset-6">
+        <h1>Testing Utile buildTable</h1>
+        <p>This uses a dummy data set with 10 records you can adjust how the records and the pagination is displayed</p>
+        <fieldset>
+            <label for="num_of_rows">Number of records pre page</label>
+            <input class="form-control" id="num_of_rows" max="10" min="1" type="number" value="2"/>
+            <label for="series_length">Number of pages in the pagniation</label>
+            <input class="form-control" id="series_length" max="10" min="1" type="number" value="4"/>
+            <button class="btn btn-outline-success" id="refresh" style="margin: 10px;float:right">Refresh</button>
+        </fieldset>
+    </div>
+
+    <div class="col-md-12">
         <div id="table_holder"></div>
     </div>
 
